@@ -3,12 +3,12 @@
 
 有些题目要手写链表的构造函数的：
 
-···
+```
 class ListNode:
     def __init__(self, val, next=None):
         self.val = val #设定值，定义数据域
         self.next = next #设定连线，定义指针域
-···
+```
 
 
 
@@ -17,3 +17,4 @@ class ListNode:
 但链表只能从头尾开始走，所以查询要走O(n).
 
 
+### 今天的题目先不做（之前做过），努力赶上进度
