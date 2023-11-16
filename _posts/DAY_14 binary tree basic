@@ -59,10 +59,10 @@ C++的map set nultimap multiset的底层实现都是平衡二叉树，所以用�
 ```python
 #首先构造一个单独二叉树的节点（包括三部分，自己的值+左边指针连None+右边指针连Node)。
 class TreeNode:
-        def __init__(self, val, left = None, right = None):
-                self.val = val #这个val可以是int也可以是string，只是节点的内容值而已
-                self.left = left #这里的left和right其实是TreeNode实例。
-                self.right = right
+    def __init__(self, val, left = None, right = None):
+        self.val = val #这个val可以是int也可以是string，只是节点的内容值而已
+            self.left = left #这里的left和right其实是TreeNode实例。
+            self.right = right
 
 #实现一般就是：
 nodeB = TreeNode("B")或nodeB = TreeNode(1)
