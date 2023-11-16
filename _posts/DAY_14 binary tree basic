@@ -18,15 +18,15 @@
      / \ 
     D   E
 
-堆就是一个完全二叉树。
+堆就是一个完全二叉树，同时保证父子节点的顺序关系。
 
 
-3. 二叉搜索树（节点便于搜索，搜索的时间复杂度LogN）：
+3. 二叉搜索树（节点便于搜索，搜索的时间复杂度LogN-有序的）：
 
 左边的所有节点值 < 中间 < 右边 （子树也满足规律）。
 
 
-4. 平衡二叉搜索树：
+4. 平衡二叉搜索树AVL：
 
 左右子树高度相差不能超过1。（子树也满足规律）
 
@@ -36,7 +36,7 @@ C++的map set nultimap multiset的底层实现都是平衡二叉树，所以用�
 
 二、二叉树的存储方式
 
-1. 链式存储：左指针连接左孩子，右指针连接右孩子，常见。
+1. 链式存储：节点元素+左指针+右指针，常见。
 面试可能要自己写constructor，构造二叉树 - 理解它是一个链表，只是有2个指针。用指针连起来之后，把头结点传入功能函数就可以了。
 
 2. 线式存储：用数组保存二叉树：给节点标注下标。
@@ -54,9 +54,35 @@ C++的map set nultimap multiset的底层实现都是平衡二叉树，所以用�
 
 四、二叉树的定义
 
-一定要自己熟练写出来！！！
+一定要自己熟练默写出来！！！
+
+```
+首先构造一个单独二叉树的节点（包括三部分，自己的值+左边指针连None+右边指针连Node)。
+class TreeNode:
+        def __init__(self, val, left = None, right = None):
+                self.val = val #这个val可以是int也可以是string，只是节点的内容值而已
+                self.left = left #这里的left和right其实是TreeNode实例。
+                self.right = right
+
+实现一般就是：
+nodeB = TreeNode("B")或nodeB = TreeNode(1)
+
+```
 
 
+
+### 建造一个二叉树的方法就是 
+
+step1 设立左右子树都是None的节点
+```
+class TreeNode:
+        def __init__(self, val, left = None, right = None):
+                self.val = val #这个val可以是int也可以是string，只是节点的内容值而已
+                self.left = left #这里的left和right其实是TreeNode实例。
+                self.right = right
+```
+
+step 2 把节点用链表的方式（比如nodeA.left = nodeB）连起来
 
 
 
