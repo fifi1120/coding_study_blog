@@ -74,6 +74,7 @@ nodeB = TreeNode("B")或nodeB = TreeNode(1)
 ### 建造一个二叉树的方法就是 
 
 step1 设立左右子树都是None的节点
+
 ```
 class TreeNode:
         def __init__(self, val, left = None, right = None):
