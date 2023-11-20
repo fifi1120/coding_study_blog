@@ -59,7 +59,7 @@ for 集合的每一个元素: #for循环是进行树的横向遍历-本层节点
 ```
 
 
-总模板：
+backtracking函数模板：
 ```
 def backtracking(参数):
   if 终止条件：
@@ -72,3 +72,42 @@ def backtracking(参数):
     回溯（即撤回刚刚的处理结果）
 ```
 
+
+LC77
+
+不剪枝：
+
+```
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        result = []  # 存放结果集
+        self.backtracking(n, k, 1, [], result)
+        return result
+    def backtracking(self, n, k, startIndex, path, result):
+        if len(path) == k: #终止条件是：当path里面存够了需要的树（到达叶子节点）
+            result.append(path[:]) #存进res
+            return
+        for i in range(startIndex, n - (k - len(path)) + 2):  # 优化的地方
+            path.append(i)  # 处理节点，放进path
+            self.backtracking(n, k, i + 1, path, result) #recursion，其实本身再次调用自己，就是走深一层的意思。比如k=5，那么其实会一遍一遍不停调用4遍，直到走到叶子节点。这里（把startIndex+1）就是为了避免重复的微调。
+            path.pop()  # 回溯，撤销处理的节点
+
+```
+
+总模板：
+```
+def XXX:
+  res = []
+  self.backtracking(xxx)
+  return res
+
+def backtracking(xxx):
+  if BASELINE:
+    res.append()
+    return
+
+  for EACH_IN_THIS_LAYER:
+    path.append() # path就是装载小结果的容器，满足条件后把好几个path一组一组放进最终的res
+    backtracking(xxx)
+    path.pop()
+```
