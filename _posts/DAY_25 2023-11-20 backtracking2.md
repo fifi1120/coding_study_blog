@@ -25,9 +25,12 @@ if len(path) == k: #先看卡槽满了
 
 
 单层搜索的逻辑:
-
-
-
+```
+for i in range(startIndex,10):
+  path.append(i)
+  self.backtracking(k, n, path, i+1, res)
+  path.pop()
+```
 
 我自己的写法：
 ```
@@ -63,6 +66,22 @@ res.append(path): 当你执行这个语句时，你实际上是将 path 列表�
 
 对于可变类型，如列表（list）、字典（dict）、和集合（set），Python 使用引用。这意味着当你将一个列表赋给另一个变量时，两个变量都指向内存中的同一个列表。
 例如，如果你有 a = [1, 2, 3]，然后你写 b = a，b 是对同一个列表 [1, 2, 3] 的引用。对 b 的任何修改（如添加或删除元素）都会影响 a，因为 a 和 b 指向的是同一个列表。
+
+
+# 在for loop里剪枝：
+
+```
+for i in range(startIndex, 9 - (k - len(path)) + 2):
+
+#如果目前的元素总和currentSum已经大于n，就没有往后遍历的意义了。
+
+#我最多能选到9.
+#已经选取的元素个数：len(path)
+#我计划选取的元素总数：k
+#我还能选取的元素：k-len(path)
+#我最多能从哪里开始作为start point: 9 - (k - len(path)) + 1
+#注意这里不是n - (k - len(path)) + 1 而是用9-哈，因为最多只能取到9.
+```
 
 
 
