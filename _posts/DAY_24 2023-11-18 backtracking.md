@@ -101,7 +101,7 @@ def XXX:
   self.backtracking(xxx)
   return res
 
-def backtracking(xxx):
+def backtracking(self, xxx):
   if BASELINE:
     res.append()
     return
