@@ -87,9 +87,9 @@ class Solution:
         if len(path) == k: #终止条件是：当path里面存够了需要的树（到达叶子节点）
             result.append(path[:]) #存进res
             return
-        for i in range(startIndex, n - (k - len(path)) + 2):  # 优化的地方
+        for i in range(startIndex, n + 1):  # 优化的地方
             path.append(i)  # 处理节点，放进path
-            self.backtracking(n, k, i + 1, path, result) #recursion，其实本身再次调用自己，就是走深一层的意思。比如k=5，那么其实会一遍一遍不停调用4遍，直到走到叶子节点。这里（把startIndex+1）就是为了避免重复的微调。
+            self.backtracking(n, k, i + 1, path, result) #recursion，其实本身再次调用自己，就是走深一层的意思（沿着树枝往下）。比如k=5，那么其实会一遍一遍不停调用4遍，直到走到叶子节点。这里（把startIndex+1）就是为了避免重复的微调。
             path.pop()  # 回溯，撤销处理的节点
 
 ```
@@ -110,4 +110,28 @@ def backtracking(xxx):
     path.append() # path就是装载小结果的容器，满足条件后把好几个path一组一组放进最终的res
     backtracking(xxx)
     path.pop()
+```
+
+
+剪枝：主要是在优化backtracking的单层搜索逻辑。
+```
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        result = [] 
+        self.backtracking(n, k, 1, [], result)
+        return result
+    def backtracking(self, n, k, startIndex, path, result):
+        if len(path) == k: 
+            result.append(path[:]) 
+            return
+        for i in range(startIndex, n - (k - len(path)) + 2):  # 优化的地方
+            path.append(i)  
+            self.backtracking(n, k, i + 1, path, result) 
+            path.pop()  
+
+#优化处的思考逻辑：
+#已经选取的元素个数：len(path)，比如n=5,k=3；这一行里面分别是12345；2345；345；45；5.只有12345；2345；345这3种情况满足要求。（45后面没得选了，k就不会到3了，叶子节点是不满足条件的，直接剪枝，同理5后面也没得选了）--我的最小起始点可以是1（startIndex的初始值），我的最大起始点可以是3.所以我的loop应该是range(1,4)
+#3是怎么得到的呢？：元素总个数5-可以选择的元素个数3+1
+#所以我的range的右边界应该是：元素总个数n - 还要选的元素(k-len(path)) + 1 + 1
+# ange的右边界 = n - (k - len(path)) + 2
 ```
