@@ -108,7 +108,7 @@ def backtracking(xxx):
 
   for EACH_IN_THIS_LAYER:
     path.append() # path就是装载小结果的容器，满足条件后把好几个path一组一组放进最终的res
-    backtracking(xxx)
+    self.backtracking(xxx)
     path.pop()
 ```
 
