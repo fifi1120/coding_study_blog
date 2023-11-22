@@ -32,7 +32,7 @@ for i in range(startIndex,10):
   path.pop()
 ```
 
-我自己的写法：
+我自己的写法（没剪枝）：
 ```
 class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
@@ -81,6 +81,28 @@ for i in range(startIndex, 9 - (k - len(path)) + 2):
 #我还能选取的元素：k-len(path)
 #我最多能从哪里开始作为start point: 9 - (k - len(path)) + 1
 #注意这里不是n - (k - len(path)) + 1 而是用9-哈，因为最多只能取到9.
+```
+
+我的剪枝做法：
+```
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        self.backtracking(k, n, [], 1, res)
+        return res
+#这一题的剪枝有2部分
+    def backtracking(self, k, n, path, startIndex, res):
+        if sum(path) > n: #剪枝1：如果现在的path就超过n了，那么直接返回
+            return
+        if sum(path) == n and len(path) == k:
+            res.append(path[:])
+            return
+
+        for i in range(startIndex, 9 - (k - len(path)) + 2):#剪枝2
+            path.append(i)
+            self.backtracking(k, n, path, i+1, res)
+            path.pop()
+
 ```
 
 
