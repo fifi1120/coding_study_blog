@@ -105,7 +105,9 @@ class Solution:
 
 ```
 
+LC 17 电话号码
 
+这道题的特殊之处在于用list建立“map”。以及string和int的灵活转化。
 
 
 
