@@ -1,3 +1,3 @@
 # Fiona's coding study blog
 
-step by step
+data structures, etc.
