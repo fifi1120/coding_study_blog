@@ -1,2 +1,3 @@
-# fifi1120.github.io
-coding study blog
+# Fiona's coding study blog
+
+step by step
