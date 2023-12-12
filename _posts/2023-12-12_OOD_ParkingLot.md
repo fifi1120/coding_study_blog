@@ -68,9 +68,9 @@ Link：https://www.youtube.com/watch?v=odS_mmxDASc
 
 <img width="152" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/78334b12-7777-4dfa-8b95-23f03668a647">
 
-顺序很重要：从小到大。
+【顺序很重要：从小到大。】
 
-停车位 -> level -> 停车场
+顺序：停车位 -> level -> 停车场
 
 3.1 先写停车位ParkingSpot：(这里也可以继承，但是不建议真实这样去操作，你可以和面试官提一嘴，说这里也可以继承）
 
@@ -93,5 +93,23 @@ Link：https://www.youtube.com/watch?v=odS_mmxDASc
 ## 四、收费
 
 <img width="267" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/876f05db-7842-4b3b-9794-7b7ed377289e">
+
+
+# method相关一般只写input和output是什么就好了
+
+
+# 建议把enter这种method写在ParkingLot里面，形成一个API。。。（？？？）
+
+
+对着最小->最大的颗粒，依次检查写下5个method：
+
+
+<img width="542" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/b131f820-092d-4e18-a37c-8eb1f39df334">
+
+<img width="353" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/66b881af-5fa2-477c-ba5c-f0f447a94a44">
+
+
+<img width="248" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/3211bb63-3be4-42fa-8521-91398fe5a6eb">
+
 
 
