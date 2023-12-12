@@ -66,4 +66,32 @@ Link：https://www.youtube.com/watch?v=odS_mmxDASc
 
 ## 三、停车场
 
+<img width="152" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/78334b12-7777-4dfa-8b95-23f03668a647">
+
+顺序很重要：从小到大。
+
+停车位 -> level -> 停车场
+
+3.1 先写停车位ParkingSpot：(这里也可以继承，但是不建议真实这样去操作，你可以和面试官提一嘴，说这里也可以继承）
+
+<img width="261" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/a1e54ca3-d872-44db-8f3d-f304ec832e51">
+
+3.2 再写level（一层有哪些ParkingSlot）：
+
+用list表示一层有哪些停车位
+
+<img width="239" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/247a804b-b216-4292-b9d2-78432f56a787">
+
+3.3 自己加一个class Constants：
+
+<img width="226" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/5204f3d1-96bb-43de-84e0-be54d111ba6d">
+
+3.4 停车场
+
+<img width="158" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/eda8f2ec-4ff2-4ff3-a7a2-cb81fa272ca7">
+
+## 四、收费
+
+<img width="267" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/876f05db-7842-4b3b-9794-7b7ed377289e">
+
 
