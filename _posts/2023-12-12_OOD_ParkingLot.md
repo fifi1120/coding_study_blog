@@ -1,5 +1,7 @@
 # 停车场 
 
+<img width="800" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/2b322795-6c9c-487d-a437-ad9e9a63a351">
+
 Link：https://www.youtube.com/watch?v=odS_mmxDASc
 
 <img width="615" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/c2fc5f76-45bb-4020-896a-e85ea84bfcbc">
