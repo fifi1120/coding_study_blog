@@ -8,6 +8,8 @@ DAY1 代码随想录 。
 
 一 左闭右闭 [left,right] left和right的每次调整都是mid+1或mid-1 while left <= right --> 我选定这一种
 
+【顺口溜：左闭右闭，加一减一，小于等于。】
+
     left = 0 
     
     right = len(nums) - 1
