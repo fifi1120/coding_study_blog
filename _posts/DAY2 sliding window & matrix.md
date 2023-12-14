@@ -62,4 +62,48 @@ class Solution:
         return nums
 ```
 
+## 类似题目：54.螺旋矩阵
+### 表扬一下自己，是自己完全做出来的，最后有bug，用gpt debug，gpt真是蠢钝如猪啊！！！ 我感觉还是不能太依赖。对自己人脑的智慧有了更多的自信。
 
+```
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        res = []
+        startx, starty = 0,0
+        loop = min(len(matrix)//2, len(matrix[0])//2) #loop=1
+        #mid_length = max(len(matrix), len(matrix[0])) - loop * 2
+        mid_start = loop
+
+        #m是列数，4
+        m = len(matrix[0])
+        #n是行数，3
+        n = len(matrix)
+
+        for offset in range(1, loop+1): #offset=range(1,2) offset=1
+            for i in range(starty, m-offset): #range(0,3),i=0,1,2
+                res.append(matrix[startx][i]) #matrix[0][0];matrix[0][1];matrix[0][2]
+            for i in range(startx, n-offset): #range(0,1),i=0,1
+                res.append(matrix[i][m-offset])#matrix[0][3];matrix[1][3]
+            for i in range(m-offset, starty, -1): #range(3,0,-1),i=3,2,1
+                res.append(matrix[n-offset][i]) #matrix[2][3],matrix[2][2];matrix[2][1]
+            for i in range(n-offset, startx, -1): #range(2, 0, -1),i=2,1
+                res.append(matrix[i][starty])
+            startx += 1
+            starty += 1
+
+        cur_len = len(res)
+    
+        
+        if len(res) != m * n:
+            if m < n:
+                for _ in range(n-loop*2):
+                    res.append(matrix[startx][starty])
+                    startx += 1
+            else:
+                for _ in range(m-loop*2):
+                    res.append(matrix[startx][starty])
+                    starty += 1
+        return res
+```
+
+我感觉matrix题就是不停地模拟和熟练
