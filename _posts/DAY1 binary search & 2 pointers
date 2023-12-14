@@ -6,7 +6,7 @@ DAY1 代码随想录 。
 
 有且仅有2种写法：
 
-一 左闭右闭 [left,right] left和right的每次调整都是mid+1或mid-1 while left <= right
+一 左闭右闭 [left,right] left和right的每次调整都是mid+1或mid-1 while left <= right --> 我选定这一种
 
     left = 0 
     
