@@ -127,6 +127,29 @@ class Solution:
 
 ```
 
+## 自选拓展题 3. Longest Substring Without Repeating Characters
+
+也符合 【打擂台】 + 【for套while】 的模板：
+
+```
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if s == "":
+            return 0
+        left = 0
+        res = 1
+        for right in range(1, len(s)): #right=1-7
+            while s[right] in s[left:right]: #while s[1] in s[0:2]
+                left += 1
+            
+            if right - left + 1 > res:
+                res = right - left + 1
+        return res
+
+```
+
+
+
 
 # Matrix
 
