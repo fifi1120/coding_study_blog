@@ -119,6 +119,7 @@ class Solution:
 
 这一题需要原地修改一个list（删除），同时还要返回剩余的长度。记住，原地删除有一个经典方法是：通过index去修改。如果还要返回剩余长度，联想到指针+index。
 
+
 ```
 class Solution:
     def removeElement(self, nums: List[int], val: int) -> int: #原地删除所有值为val的数
