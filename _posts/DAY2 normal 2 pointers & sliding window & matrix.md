@@ -2,7 +2,7 @@
 
 ## LC  977.有序数组的平方 
 
-两个指针，一前一后，逐渐移动到中间。为什么想到用双指针呢？
+两个指针，一前一后，逐渐移动到中间。从前往后/从后往前双指针。为什么想到用双指针呢？
 
 数组其实是有序的， 只不过负数平方之后可能成为最大数了。
 
@@ -31,7 +31,7 @@ class Solution:
 
 ## 自选扩展题 167. Two Sum II - Input Array Is Sorted
 
-很简单，哪个菩萨出的题
+很简单，哪个菩萨出的题。从前往后/从后往前双指针。
 
 ```
 class Solution:
@@ -46,6 +46,37 @@ class Solution:
                 left += 1
             else:
                 return [left+1, right+1]
+
+```
+
+## 自选扩展题 15. 3Sum
+
+其实就是for+从前往后/从后往前双指针；就是很难想到需要用双指针，哈哈。
+
+```
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort() #[-4,-1,-1,0,1,2]
+        res = []
+        for i in range(len(nums)): # target = -nums[i]
+            if i > 0 and nums[i] == nums[i-1]: #降低一点时间复杂度，如果两个target是一样的，就直接后一步
+                continue
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                if nums[left] + nums[right] > (0 - nums[i]):
+                    right -= 1
+                elif nums[left] + nums[right] < (0 - nums[i]):
+                    left += 1
+                else:
+                    res.append([nums[i], nums[left], nums[right]])
+                    while left < right and nums[left] == nums[left + 1]: #同理，也是，一样的话就继续移动，降低时间复杂度。注意这里的left < right不能省略：你可能会觉得外面那个大while不是已经规定了left < right吗？但别忘了，你上面几行还在left++ right--呢。所以要重新说一遍
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    right -= 1
+                    left += 1
+        return res
 
 ```
 
