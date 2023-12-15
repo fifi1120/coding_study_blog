@@ -102,6 +102,9 @@ class Solution:
 ···
 
 
+
+
+
 # 双指针（快慢指针）
 
 
@@ -112,20 +115,22 @@ class Solution:
 慢的指针就是如果不是要删除的值，正常+1，并且更新nums[slow]的值；如果正好是要删除的值，slow就不往前走也不更新。
 
 
-#27
+# 27 移除元素
+
+这一题需要原地修改一个list（删除），同时还要返回剩余的长度。记住，原地删除有一个经典方法是：通过index去修改。如果还要返回剩余长度，联想到指针+index。
+
 ```
 class Solution:
-    def removeElement(self, nums: List[int], val: int) -> int:
-        # when using two pointers, no need to use for loop -> confusing. just let two pointers + 1 or not.
+    def removeElement(self, nums: List[int], val: int) -> int: #原地删除所有值为val的数
         slow = 0
         fast = 0
-        while fast <= len(nums) - 1: #while fast < 7
-            if nums[fast] != val: 
+        while fast <= len(nums)-1:
+            if nums[fast] == val: # need to be deleted （其实换成指针语言就是：如果这个值是要被删除的，那就fast继续往前走，直到找到下一个不需要被删除的元素，然后存在slow那里
+                fast += 1
+            else: # 这就是正常找到了一个要存进slow里的
                 nums[slow] = nums[fast]
-                fast += 1 #fast = 1,2
-                slow += 1 #slow = 1,2
-            else:
-                fast += 1 #fast=3
+                slow += 1
+                fast += 1
         return slow
 ```
 
