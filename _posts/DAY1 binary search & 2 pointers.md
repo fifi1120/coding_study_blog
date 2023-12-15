@@ -53,6 +53,54 @@ DAY1 代码随想录训练营 数组1/2
     return -1 # cannot find
 
 
+## 经典题704 一定要写得肌肉记忆
+
+```
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l = 0 
+        r = len(nums)-1
+
+        while l <= r:
+            mid = l + (r-l)//2
+            if target < nums[mid]:
+                r = mid - 1
+            elif target > nums[mid]:
+                l = mid + 1
+            else:
+                return mid
+        return -1
+```
+
+## 进阶题（很棒哦自己写出来了）74 在matrix里面二分法，其实就是先对行二分法，再对列二分法。
+
+```
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        row = len(matrix) #row=1
+        col = len(matrix[0]) #col=1
+        top = 0
+        bot = row - 1 # 2 #bot = 0
+        while top <= bot:
+            mid_row = top + (bot - top) // 2 #mid_col=0+1=1
+            if target > matrix[mid_row][-1]:
+                top = mid_row + 1
+            elif target < matrix[mid_row][0]:
+                bot = mid_row - 1
+            else: #target在mid那一行了
+                left = 0 
+                right = len(matrix[0])
+                while left <= right:
+                    mid_col = left + (right - left)//2
+                    if target < matrix[mid_row][mid_col]:
+                        right = mid_col - 1
+                    elif target > matrix[mid_row][mid_col]:
+                        left = mid_col + 1
+                    else:
+                        return True
+                return False
+···
+
 
 # 双指针（快慢指针）
 
