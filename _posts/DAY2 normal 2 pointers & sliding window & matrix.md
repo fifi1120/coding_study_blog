@@ -93,14 +93,39 @@ class Solution:
 ```
 for loop 右指针 依次右移:
 
-   while 题目条件：
+   while 题目条件要你满足的条件：
 
-     左指针右移
+        打擂台
+
+        左指针右移（会自动check是否满足while，如果是，会继续打擂台）
 ```
 
 这里可以设置一个变量记录最大值等等。
 
+### 其实，滑动窗口的核心思想是：打擂台+右边依次动，左边看情况动不动。
 
+## 209.长度最小的子数组
+
+
+```
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        if sum(nums) < target:
+            return 0
+        
+        res = len(nums) #cur=6
+        
+        left = 0
+        cur_sum = 0 
+        for right in range(len(nums)): 
+            cur_sum += nums[right] #for loop每走一步，cur_sum每更新一次。
+            while cur_sum >= target:
+                res = min(res, right - left + 1)
+                cur_sum -= nums[left] #左指针尝试向右移动一位，如果还符合条件（窗口内和大于等于target，就会再次进入while loop并且更新res，但是如果不满足条件，也就不会更新res，所以不用担心：即使这里l多走了一位，我的res还是准确的。
+                left += 1
+        return res
+
+```
 
 
 # Matrix
