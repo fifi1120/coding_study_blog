@@ -1,5 +1,36 @@
 # 普通双指针
 
+## LC  977.有序数组的平方 
+
+两个指针，一前一后，逐渐移动到中间。为什么想到用双指针呢？
+
+数组其实是有序的， 只不过负数平方之后可能成为最大数了。
+
+那么数组平方的最大值就在数组的两端，不是最左边就是最右边，不可能是中间。
+
+此时可以考虑---->双指针法了，i指向起始位置，j指向终止位置。
+
+
+```
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        left = 0
+        right, i = len(nums) - 1, len(nums) - 1 # 提前定义i是很重要的一步。我之前用res.insert(0, something)直接再乘以了一个O(n)。有了i之后直接用index去改，就只是O(1)。
+        res = [0] * len(nums) # 初始化成任意数不影响的。你用了i就要提前定义好res。
+        while left <= right:
+            if abs(nums[left]) <= abs(nums[right]):
+                res[i] = nums[right] * nums[right]
+                right -= 1
+                i -= 1
+            else:
+                res[i] = nums[left] * nums[left]
+                left += 1
+                i -= 1
+        return res
+```
+
+
+
 # 滑动窗口：
 
 一定记得是right指针用for loop依次往右移，左边指针【根据题目意思】来看动不动。
