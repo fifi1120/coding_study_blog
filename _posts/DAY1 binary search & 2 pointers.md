@@ -15,6 +15,8 @@ DAY1 代码随想录训练营 数组1/2
     right = len(nums) - 1
     
     while left <= right:
+
+      mid = left + (right - left) // 2  # mid要在while循环里面，这样才能不断更新
     
       if target < nums[mid]:
       
@@ -38,6 +40,8 @@ DAY1 代码随想录训练营 数组1/2
     right = len(nums) # 这里有变化
     
     while left < right: # 这里有变化
+
+      mid = left + (right - left) // 2  # mid要在while循环里面，这样才能不断更新
     
       if target < nums[mid]:
       
