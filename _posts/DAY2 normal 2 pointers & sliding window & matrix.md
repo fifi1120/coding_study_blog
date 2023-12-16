@@ -80,6 +80,25 @@ class Solution:
 
 ```
 
+## 自选扩展题 344. Reverse String
+
+难度在于in-place修改技巧，你要交换的话可以直接：s[left], s[right] = s[right], s[left]
+
+```
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left = 0
+        right = len(s) - 1
+        while left < right:
+            s[left], s[right] = s[right], s[left] #自己这里不会写
+            left += 1
+            right -= 1
+
+```
+
 # 滑动窗口：
 
 一定记得是right指针用for loop依次往右移，左边指针【根据题目意思】来看动不动。
