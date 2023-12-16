@@ -101,9 +101,29 @@ class Solution:
                 return False
 ```
 
+## 自己不会做的easy题 441. 排列硬币
 
+求的是 sum(k) = k * (k + 1) / 2 <= n中最大的k，且存在二段性：对于某个 k1，sum(k1) <= n，而sum(k2) > n，k2 > k1。可以用二分的查找最大满足条件的模板。
 
-
+```
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        #1,3,6,10,15，。。。。
+        #其实每一行是：1,2,3,4,5是等差数列。等差数列前n项和：（首项+末项）*项数/2=（1+n)n/2
+        #其实这题的二分法比较隐晦，但是其实仔细思考题目的特点有：有序单调（有规律）、有最直白的界限（反正答案不会超过n）、题目要你找满足XXX条件的边界---> 二分法！
+        #难点是：等差数列求和公式+发现二分法
+        left = 0
+        right = n
+        while left <= right:
+            mid = left + (right - left) // 2
+            if (1+mid) * mid // 2 > n:
+                right = mid - 1
+            elif (1+mid) * mid // 2 < n:
+                left = mid + 1
+            else:
+                return mid
+        return left-1
+```
 
 # 快慢指针
 
