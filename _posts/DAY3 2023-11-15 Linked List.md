@@ -19,4 +19,29 @@ class ListNode:
 但链表只能从头尾开始走，所以查询要走O(n).
 
 
-### 今天的题目先不做（之前做过），努力赶上进度
+### 删除元素
+
+203. Remove Linked List Elements
+
+唯一需要的技巧是设置dummy
+
+```
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        dummy = ListNode(0)
+        dummy.next = head
+        cur = dummy
+        while cur.next is not None:
+            if cur.next.val == val:
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return dummy.next
+```
+
+
