@@ -21,7 +21,7 @@ class ListNode:
 
 ### 删除元素
 
-203. Remove Linked List Elements
+## 203. Remove Linked List Elements
 
 唯一需要的技巧是设置dummy
 
