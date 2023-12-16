@@ -93,11 +93,8 @@ class Solution:
 ```
 for loop 右指针 依次右移:
 
-   while/if 题目条件要你满足的条件：
-
-        左指针右移（会自动check是否满足while，如果是，会继续打擂台）
-
-    在for loop里面打擂台
+   根据条件移动左指针
+   打擂台
 
 ```
 
@@ -153,6 +150,43 @@ class Solution:
 
 
 其实就是维护一个滑动窗口，然后保证窗口大小减去出现次数最多的字符的字数之差小于等于k即符合，窗口可继续扩张，否则就不符合题意，右移左指针
+
+```
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {}
+        left = 0
+        max_count = 0
+        res = 0
+        for right in range(len(s)):
+            count[s[right]] = 1 + count.get(s[right], 0)
+            max_count = max(max_count, count[s[right]])
+            while right - left + 1 - max_count > k: #不满足题目条件，left往右移动试试呢
+                count[s[left]] -= 1
+                left += 1
+            res = max(res, right - left + 1)
+        return res
+
+```
+
+## 自选扩展题 485. Max Consecutive Ones
+
+简单题都要想一会儿。。。原来easy题才是我的归属
+
+```
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        res = 0
+        left = 0
+        for right in range(len(nums)):
+            if nums[right] == 0:
+                left = right + 1
+            if right - left + 1 > res:
+                res = right - left + 1
+        return res
+
+```
+
 
 
 # Matrix
