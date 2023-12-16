@@ -206,6 +206,25 @@ class Solution:
 
 ```
 
+## 自选拓展题 643. Maximum Average Subarray I
+
+其实很简单，但是是滑动窗口的另一种做法，一定要动手做。max还是cur分清楚。
+```
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        max_sum = sum(nums[0:k])  # 初始化最大和为前 k 个元素的和
+        cur_sum = max_sum  # 当前窗口的和
+        left = 0  # 初始化左指针
+
+        for right in range(k, len(nums)):
+            cur_sum += nums[right] - nums[left]  # 更新当前窗口的和
+            max_sum = max(max_sum, cur_sum)  # 如果当前窗口的和更大，则更新最大和
+            left += 1  # 移动左指针
+
+        return round(max_sum / k, 5)
+
+
+```
 
 
 # Matrix
