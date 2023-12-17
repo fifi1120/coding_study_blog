@@ -115,7 +115,7 @@ while 右指针不过界:
    窗口 += 右边元素
    right += 1
 
-    while 需要缩小窗口（移动左指针）：
+    while left <= right and 需要缩小窗口：
         窗口 -= 左边元素
         left += 1
 
@@ -230,6 +230,35 @@ class Solution:
 
 ```
 
+
+## 自选拓展题（重要），是完全按照上面的模板来的，下次复习要亲自上手：567. Permutation in String
+
+```
+from collections import Counter
+
+class Solution:
+    def checkInclusion(self, s1, s2):
+        counter1 = Counter(s1)
+        counter2 = Counter()
+        left, right = 0, 0
+
+        while right < len(s2): 
+            # 窗口加入右边的元素
+            counter2[s2[right]] += 1
+            right += 1 
+            
+            if right - left == len(s1): #right=2, left=0
+                if counter1 == counter2: #虽然此时right=2，但加进count的只有0,1
+                    return True
+                else:  #如果长度满足了，但是counter不满足，就继续移动左指针（下一次while会移动right的
+                # 移动窗口：窗口减去左边的元素
+                    counter2[s2[left]] -= 1
+                    if counter2[s2[left]] == 0:
+                        del counter2[s2[left]] #这两行很重要，因为counter里面一般是不保留0的key的，如果你继续保留了，很可能明明counter1==counter2，但因为有一个键的值为0，看起来就像不等于。
+                    left += 1
+
+        return False
+```
 
 # Matrix
 
