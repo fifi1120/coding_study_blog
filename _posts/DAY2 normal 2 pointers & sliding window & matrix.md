@@ -311,3 +311,32 @@ class Solution:
 ```
 
 我感觉matrix题就是不停地模拟和熟练
+
+## 自选简单题也难以独立做出来哦： 566. Reshape the Matrix
+
+```
+class Solution:
+    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:
+        lst = []
+        for m in range(len(mat)): 
+            for n in range(len(mat[0])):
+                lst.append(mat[m][n])
+        res = []
+        #重大问题：不能用res = [[0] * c] * r建立空白矩阵，这会导致所有行引用同一个列表，非要建立的话可以这么写：res = [[0 for _ in range(c)] for _ in range(r)]
+        if r * c != len(lst): #illegal
+            return mat
+        else:
+            for i in range(0, len(lst), c):  #i就是每隔column就再来一遍（有几行就遍历几次）
+                res.append(lst[i:i+c])
+            return res
+        
+```
+
+这道题非常基础，就是先把矩阵变成一维的，再从一维的变成二维的。有一些特定的写法比如如何展开矩阵（2个for loop）希望你牢记在心，写的时候可以更快更有自信。
+
+怎么把矩阵从一维重装成二维呢？就是
+```
+for i in range(0, len(lst), c): #按列跳步，循环行数次
+    res.append(lst[i:i+c]) #把该行填满（填列数个元素）
+```
+                            
