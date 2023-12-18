@@ -83,10 +83,7 @@ class Solution:
         return result
 ```
 
-还有Python的bug方法：
-
-
-时间和空间复杂度上都是O(N+M)
+还有Python set的bug方法：时间和空间复杂度上都是O(N+M)
 
 
 ```
@@ -96,24 +93,24 @@ class Solution:
 
 ```
 
-## 202 快乐数
+## 202 快乐数  
 
-有一点需要想到的是：如果有重复（循环）就是永远也不会为1，要return True了。那怎么找到是否有重复值出现呢？（找某个数是否出现过）用哈希！
+有一点需要想到的是：如果有重复（循环）就是永远也不会为1，要return True了。那怎么找到是否有重复值出现呢？（找某个数是否出现过）用set！
 
 用helper函数会更清晰。
 
 ```
 class Solution:
     def isHappy(self, n: int) -> bool:
-        lst = set()
-        lst.add(n)
+        record = set()
+        record.add(n)
         sum_happy = n
         while sum_happy != 1:
             sum_happy = self.calculation(sum_happy)
-            if sum_happy in lst:
+            if sum_happy in record:
                 return False
             else:
-                lst.add(sum_happy)
+                record.add(sum_happy)
         return True
     
     def calculation(self, n: int) -> int:
@@ -123,4 +120,38 @@ class Solution:
         return res
 ```
 
+## 1. 2Sum 哈希字典方法可以常做
+
+这道题怎么想思路：因为要return index，还可能有重复数字，所以一定要用enemurate。
+
+我自己先没用enemurate，直接自己设定好了一个map，再在里面去搜索，但这样的时间复杂度很高（已知value去求index需要O(n)。这是我的低效写法：
+
+```
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+ 
+        map = {}
+        for i in range(len(nums)):
+            map[nums[i]] = target - nums[i]
+
+        for index, value in enumerate(nums):
+            if map[value] in nums[index + 1::]:
+                return [index, nums.index(map[value], index + 1)]
+
+
+```
+
+这是比较好的写法，时间复杂度是O(n)。有两个值，用数组和set都不适用，可以用map（也就是字典）
+
+```
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+       # dict里面装已经遍历过的元素，每次都判定一下<在已遍历的group里面有没有能和手头上这个match的> 这样就只用loop一遍了，不需要lst.index(value)增加一倍的时间复杂度。
+       record = dict() #建立一个空字典,key是值，value是索引 -- 为什么要这样？因为我之后只能用key去查看是否存在于record字典呀
+       for index, value in enumerate(nums):
+            if target - value in record:
+               return [index, record[target - value]]
+            else:
+                record[value] = index
+```
 
