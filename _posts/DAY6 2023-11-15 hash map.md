@@ -48,3 +48,79 @@ class Solution:
 Counter函数和数组比较：
 
 时间复杂度都是O(m+n)，但是用数组的空间复杂度只要O(1)（固定长度26），但是Counter的空间复杂度是O(m+n).
+
+## 349. Intersection of Two Arrays
+
+Counter太爽咯，时间和空间复杂度都是O(m+n)
+
+```
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        res = []
+        count1 = collections.Counter(nums1)
+        count2 = collections.Counter(nums2)
+        for i in count1:
+            if i in count2:
+                res.append(i)
+        return res
+```
+
+用数组，时间复杂度O(m+n)，空间复杂度O(1)
+
+```
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        count1 = [0]*1001
+        count2 = [0]*1001
+        result = []
+        for i in range(len(nums1)):
+            count1[nums1[i]]+=1
+        for j in range(len(nums2)):
+            count2[nums2[j]]+=1
+        for k in range(1001):
+            if count1[k]*count2[k]>0:
+                result.append(k)
+        return result
+```
+
+还有Python的bug方法：
+
+
+时间和空间复杂度上都是O(N+M)
+
+
+```
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return list(set(nums1) & set(nums2))
+
+```
+
+## 202 快乐数
+
+有一点需要想到的是：如果有重复（循环）就是永远也不会为1，要return True了。那怎么找到是否有重复值出现呢？（找某个数是否出现过）用哈希！
+
+用helper函数会更清晰。
+
+```
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        lst = set()
+        lst.add(n)
+        sum_happy = n
+        while sum_happy != 1:
+            sum_happy = self.calculation(sum_happy)
+            if sum_happy in lst:
+                return False
+            else:
+                lst.add(sum_happy)
+        return True
+    
+    def calculation(self, n: int) -> int:
+        res = 0
+        for i in str(n):
+            res += int(i) ** 2
+        return res
+```
+
+
