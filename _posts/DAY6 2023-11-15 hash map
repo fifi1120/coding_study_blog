@@ -13,6 +13,38 @@
 而哈希表就类似于已知索引（用特殊算法去规定索引），所以速度也是O(1)。
 
 
-### 题目待做 - 用哈希表的方式做
+## 242. Valid Anagram
 
+经典题 用Counter真的很好做.
+```
 
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        s_count = collections.Counter(s)
+        t_count = collections.Counter(t)
+        if s_count == t_count:
+            return True
+        else:
+            return False
+```
+
+方法二：直接用数组：
+```
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        count = [0] * 26
+        for i in s:
+            count[ord(i) - ord("a")] += 1
+        for j in t:
+            count[ord(j) - ord("a")] -= 1
+        for x in count:
+            if x == 0:
+                continue
+            else:
+                return False
+        return True
+```
+
+Counter函数和数组比较：
+
+时间复杂度都是O(m+n)，但是用数组的空间复杂度只要O(1)（固定长度26），但是Counter的空间复杂度是O(m+n).
