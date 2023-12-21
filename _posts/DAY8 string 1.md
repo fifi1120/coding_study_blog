@@ -1,5 +1,7 @@
 如果一句话的库函数就可以解决，那么除了这样解决，你还要掌握另一种老老实实的做法。
 
+# 双指针法是字符串处理的常客。
+
 ## 344.反转字符串
 
 简单一句话：（时间复杂度是O(n)，空间复杂度是O(1))
@@ -84,5 +86,14 @@ class Solution:
         return ' '.join(res_lst)
 ```
 
+## kama网：https://kamacoder.com/problempage.php?pid=1065
 
+```
+k = int(input())
+s = input()
 
+s = s[(0 - k)::] + s[0:(0 - k)]
+
+print(s)
+    
+```
