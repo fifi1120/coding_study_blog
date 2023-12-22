@@ -2,7 +2,7 @@
 
 这道题就是两两（n^2) 组合（n^2 + n^2)
 
-所以时间复杂度对半开之后也只有n^2，可以接受。思路是建立哈希表。
+所以时间复杂度对半开之后也只有n^2，可以接受。思路是建立哈希表。（因为并不要求去重，且只用算有多少种结果，所以可以直接用哈希）
 
 ```
 class Solution:
@@ -48,4 +48,35 @@ class Solution:
         for j in magazine:
             magazine_count[ord(j) - ord('a')] += 1
         return all(ransom_count[i] <= magazine_count[i] for i in range(26))
+```
+
+
+## 15. 三数之和
+
+要求去重的话，用哈希表会比较麻烦，可以for loop一遍a，然后用左右两个指针从两边夹到中间。（先排序再双指针，探测到马上出现相同数字的时候，就直接移动指针跳过，从而去重）
+
+```
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort() #[-4,-1,-1,0,1,2] #双指针的前提是有序
+        res = []
+        for i in range(len(nums)): # 用for loop遍历a
+            if i > 0 and nums[i] == nums[i-1]: #剪枝（这里就是去重操作了）：如果两个target是一样的，就直接后一步
+                continue
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                if nums[left] + nums[right] > (0 - nums[i]):
+                    right -= 1
+                elif nums[left] + nums[right] < (0 - nums[i]):
+                    left += 1
+                else:
+                    res.append([nums[i], nums[left], nums[right]])
+                    while left < right and nums[left] == nums[left + 1]: #剪枝：一样的话就继续移动，降低时间复杂度。注意这里的left < right不能省略：你可能会觉得外面那个大while不是已经规定了left < right吗？但别忘了，你上面几行还在left++ right--呢。所以要重新说一遍
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    right -= 1
+                    left += 1
+        return res
 ```
