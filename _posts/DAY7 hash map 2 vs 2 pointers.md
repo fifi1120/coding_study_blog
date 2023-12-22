@@ -86,4 +86,35 @@ class Solution:
 
 剪枝a的目的是防止第一个数重复，而剪枝bc的目的是在找到一个有效的三元组后防止第二个和第三个数重复。这两种剪枝策略都是为了防止重复的解，但由于它们在循环中的位置不同，所以它们的检查条件也不同。
 
-#
+## 18. 四数之和
+
+思路是两个for loop嵌套+双指针收缩。
+```
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        res = []
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]:
+                    continue
+            for j in range(i+1, len(nums)):
+                if j > i+1 and nums[j] == nums[j-1]:
+                    continue
+                left = j + 1
+                right = len(nums) - 1
+                while left < right:
+                    if nums[i] + nums[j] + nums[left] + nums[right] > target:
+                        right -= 1
+                    elif nums[i] + nums[j] + nums[left] + nums[right] < target:
+                        left += 1
+                    else:
+                        res.append([nums[i], nums[j], nums[left], nums[right]])
+                        right -= 1
+                        left += 1
+                        while left < right and nums[left] == nums[left-1]: #移动了left后，发现和左边的前一位一样，需要跳过
+                            left += 1
+                        while left < right and nums[right] == nums[right+1]: #移动了right后，发现和右边的上一位一样，跳过
+                            right -= 1
+                        #这两个while的剪枝，应该发生在else（即找到正确的解）里面，因为如果根本不等于target就不需要剪枝的。
+        return res
+```
