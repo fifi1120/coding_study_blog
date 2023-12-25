@@ -38,7 +38,7 @@ class Stack:
         self.items.append(item)  # 使用 append 方法来添加元素
 
     def pop(self):
-        return self.items.pop()  # 使用 pop 方法来移除最后一个元素
+        return self.items.pop()  # 使用 pop 方法来移除最后一个元素，记得pop就是popright()的意思，但是是没有popright()这种写法的
 
     def peek(self):
         return self.items[-1] if self.items else None  # 查看栈顶元素
@@ -114,4 +114,43 @@ class Queue:
 
     def size(self):
         return len(self.queue)
+```
+
+#### 232.用栈实现队列
+虽然是简单题目，但是很考察基本功。推荐写一写。
+#基本功：何时用self？
+#回答：在一个 class 里面， 如果变量（在 init 里面定义了）或者函数（在 class 里面定义的），在 class 的别的函数里面调用他们的时候就要加。
+
+```
+class MyQueue:
+
+    def __init__(self):
+        self.stack_in = []
+        self.stack_out = []
+
+    def push(self, x: int) -> None:
+        self.stack_in.append(x)
+        
+
+    def pop(self) -> int: #pop的话只弹出一个就好了，所以如果stack_out不是空的，就直接弹一个出来就好了。如果tack_out是空的，就先把stack_in的数字【全部弹出并append到stack_out】，再弹出stack_out的最上面一个
+        if self.empty():
+            return None
+        if self.stack_out:
+            return self.stack_out.pop()
+        else:
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
+        return self.stack_out.pop()
+
+
+    def peek(self) -> int:
+        peek_item = self.pop()
+        self.stack_out.append(peek_item) #这里一定是在stack_out去append这个数字，而不能直接self.push(peek_item)。因为push的时候是把元素放进stack_in，但是你pop的时候是从stack_out出来的，你还原当然要还原成和原来一样的，不然就会乱掉。
+        return peek_item
+        
+
+    def empty(self) -> bool:
+        if len(self.stack_in) == 0 and len(self.stack_out) == 0:
+            return True
+        return False 
 ```
