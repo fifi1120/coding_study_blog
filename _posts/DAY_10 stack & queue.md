@@ -221,3 +221,29 @@ class MyStack:
     def empty(self) -> bool:
         return len(self.queue_in) == 0 #因为只有in存了数据，只要判断in是不是有数即可
 ```
+
+优化版本就是只用一个队列
+```
+class MyStack:
+
+    def __init__(self):
+        self.que = deque()
+
+    def push(self, x: int) -> None:
+        self.que.append(x)
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        for i in range(len(self.que)-1):#保留queue_in的最后一个数（也就是在stack里面最上面准备被弹出的那个数），把剩下的转个弯塞进queue身后，栈底的数字就变成队列头头了。
+            self.que.append(self.que.popleft())
+        return self.que.popleft() #再把队列头头弹出去
+
+    def top(self) -> int:
+        ans = self.que.popleft()
+        self.que.append(ans)
+        return ans
+
+    def empty(self) -> bool:
+        return len(self.que) == 0
+```
