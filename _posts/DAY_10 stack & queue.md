@@ -154,3 +154,70 @@ class MyQueue:
             return True
         return False 
 ```
+#### 225. 用队列实现栈
+
+要求用2个队列实现栈。
+
+比较直觉的方式是其实一个deque就可以直接实现，但是这是错误写法奥，题目要求FIFO队列，只能用popleft()。还是要认真读题！！！
+```
+class MyStack:
+
+    def __init__(self):
+        self.que = collections.deque()
+
+    def push(self, x: int) -> None:
+        que = self.que.append(x)
+
+    def pop(self) -> int:
+        return self.que.pop() # 题目要求不能用pop()
+
+    def top(self) -> int:
+        return self.que[-1]
+
+    def empty(self) -> bool:
+        return len(self.que) == 0
+```
+
+但是既然题目说要用2个队列实现栈，整体思路就是：用两个队列que1和que2实现队列的功能，que2其实完全就是一个备份的作用，把que1最后面的元素以外的元素都备份到que2，然后弹出最后面的元素，再把其他元素从que2导回que1。
+```
+from collections import deque
+
+class MyStack:
+
+    def __init__(self):
+        """
+        【deque的优越性】关于为什么不用queue模块或者list，而用deque：
+        Python普通的Queue或SimpleQueue没有类似于peek的功能，也无法用索引访问，在实现top的时候较为困难。
+        用list可以，但是在使用pop(0)的时候时间复杂度为O(n)
+        因此这里使用双向队列，我们保证只执行popleft()和append()，因为deque可以用索引访问，可以实现和peek相似的功能
+
+        in - 存所有数据
+        out - 仅在pop的时候会用到
+        """
+        self.queue_in = deque()
+        self.queue_out = deque()
+
+    def push(self, x: int) -> None:
+        self.queue_in.append(x) #in用于存数据，append就是直接加到queue_in里面
+
+
+    def pop(self) -> int:
+        if self.empty():
+            return None # 先确认queue_in不是空的
+
+        for i in range(len(self.queue_in) - 1): #保留queue_in的最后一个数（也就是在stack里面最上面准备被弹出的那个数），把其他的都依次放进stack_out，比如如果先在stack_in里面依次放进了123，这一步之后的结果就是stack_out里面有12，stack_in还剩3
+            self.queue_out.append(self.queue_in.popleft())
+        
+        self.queue_in, self.queue_out = self.queue_out, self.queue_in    # 交换in和out，（保证queue_out只用来出去）
+
+        return self.queue_out.popleft() #把那一个元素pop出来
+
+    def top(self) -> int:
+        ans = self.queue_in.pop()   
+        self.queue_in.append(ans) # pop的操作的结果是从queue_in里面少了一个数，现在加回去
+        return ans
+
+
+    def empty(self) -> bool:
+        return len(self.queue_in) == 0 #因为只有in存了数据，只要判断in是不是有数即可
+```
