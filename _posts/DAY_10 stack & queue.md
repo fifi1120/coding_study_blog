@@ -1,4 +1,4 @@
-# 栈（Stack）的实现
+# 栈（Stack）的实现 - list
 在LeetCode中，栈通常用于解决如括号匹配、后缀表达式计算、回溯问题等。实现方法包括：
 
 ### 【重要】使用列表（List）实现stack：
@@ -62,7 +62,7 @@ class Stack:
             return self.items[0] if self.items else None
 ```
 
-# 队列（Queue）的实现
+# 队列（Queue）的实现 - deque
 在LeetCode中，队列常用于广度优先搜索（BFS）、缓存设计等问题。实现方法包括：
 
 ### 【重要】使用collections.deque实现queue：
