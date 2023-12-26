@@ -76,12 +76,31 @@ STEP 2: 确定终止条件：当前遍历的”根”root是空了，那么本�
 
 STEP 3: 确定单层递归的逻辑：
 
-首先是left不断递归到底：left = self.preorderTraversal(root.left) # 走到left的底部触及到None，然后return，退回上一步
+首先是left不断递归到底：left = self.preorderTraversal(root.left) # 一旦碰到调用了自己，一定要在一边不断“影分身”运行，直到完全运行完了，才能到下一行right的。这一行运行完的结果会是left = [4,1,2]。
 
-然后是right不断递归到底：right = self.preorderTraversal(root.right) # 走到right的底部触及到None，然后return，退回上一步
+然后是right不断递归到底：right = self.preorderTraversal(root.right) # “影分身”运行后，得到的是right = [6,7,8]
 
-最后看是什么顺序combine：比如前序（中左右），就是[root.val]+left+right按这样的顺序组成list。
+最后看是什么顺序combine：比如前序（中左右），就是[root.val]+left+right按这样的顺序组成list。# 最后就是return [5] + left即[4,1,2] + right即[6,7,8]。
 
+```
+关于具体是怎么递归运行的：
+XXX(5):
+    left = XXX(4) 碰到函数就走不动道了，一定要运行完了再说
+        left = XXX(1)
+            left = XXX(None), return [] 其实按照路径是先走到最底部的，之后最后回过来return存入的时候，会把root存在前面而已。
+            right = XXX(None), return []
+            return [1]+[]+[] -> [1]
+        right = XXX(2) 
+            left = XXX(None), return []
+            right = XXX(None), return []
+            return [2]+[]+[] -> [2]
+        return [4] + [1] + [2] --> [4,1,2] 一直运行到97行，存入left = [4,1,2]之后，才能进入到99行
+
+    right = XXX(6)  --> [6,7,8]
+
+    return [5] + [4,1,2] + [6,7,8]
+```      
+        
 ## BFS：一层一层（一圈一圈）去遍历。
 
 
