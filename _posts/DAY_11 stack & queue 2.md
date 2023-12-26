@@ -36,6 +36,8 @@ class Stack: # 还需要继续熟练！！！要形成肌肉记忆
 
 匹配问题都是栈的强项
 
+要知道栈为什么适合做这种类似于爱消除的操作，因为栈帮助我们记录了 遍历数组当前元素时候，前一个元素是什么。
+
 ```
 class Solution:
     def removeDuplicates(self, s: str) -> str:
