@@ -81,7 +81,9 @@ STEP 3: 确定单层递归的逻辑：
 然后是right不断递归到底：right = self.preorderTraversal(root.right) # “影分身”运行后，得到的是right = [6,7,8]
 
 最后看是什么顺序combine：比如前序（中左右），就是[root.val]+left+right按这样的顺序组成list。# 最后就是return [5] + left即[4,1,2] + right即[6,7,8]。
+
 <img width="637" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/db5821e7-9706-4453-81a8-3860aca25e69">
+
 ```
 关于具体是怎么递归运行的：
 XXX(5):
