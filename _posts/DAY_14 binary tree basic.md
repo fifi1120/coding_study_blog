@@ -8,9 +8,6 @@
      / \ / \
     D  E F  G
 ```
-<img width="591" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/ee0fbbb3-2fdb-4ede-9334-083423f753d2">
-
-
 节点数量：2^k-1 =（k是深度）
 
 
