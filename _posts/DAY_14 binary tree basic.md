@@ -58,7 +58,29 @@
 
 一般DFS用递归实现。（也可以用iterate，但考得比较简单）
 
-”前中后：指的是中间节点的遍历顺序，比如前序就是中间节点在最前：中左右。
+前序、中序、后序：指的是中间节点的遍历顺序。
+
+比如
+
+前序（中间节点在最前）：中节点左子树右子树。中序：左子树中节点右子树。后序：左子树右子树中节点。
+<img width="637" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/db5821e7-9706-4453-81a8-3860aca25e69">
+
+
+### 代码具体：
+
+递归三部曲：
+
+STEP 1: 确定递归函数的参数和返回值: 一般参数是root（TreeNode类型），返回的是list。（root就是你把哪个节点视作根。“root具体指代哪个节点”是会在递归中一次又一次地变化的：最开始的root是整颗大树的根节点，然后“root”又会变成root.left；root.right...不断递归下去）
+
+STEP 2: 确定终止条件：当前遍历的”根”root是空了，那么本层递归就要结束了。
+
+STEP 3: 确定单层递归的逻辑：
+
+首先是left不断递归到底：left = self.preorderTraversal(root.left) # 走到left的底部触及到None，然后return，退回上一步
+
+然后是right不断递归到底：right = self.preorderTraversal(root.right) # 走到right的底部触及到None，然后return，退回上一步
+
+最后看是什么顺序combine：比如前序（中左右），就是[root.val]+left+right按这样的顺序组成list。
 
 ## BFS：一层一层（一圈一圈）去遍历。
 
