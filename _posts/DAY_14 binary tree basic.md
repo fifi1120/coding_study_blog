@@ -63,10 +63,10 @@
 比如
 
 前序（中间节点在最前）：中节点左子树右子树。中序：左子树中节点右子树。后序：左子树右子树中节点。
-<img width="637" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/db5821e7-9706-4453-81a8-3860aca25e69">
 
 
-### 代码具体：
+
+### 代码思路：
 
 递归三部曲：
 
@@ -81,13 +81,14 @@ STEP 3: 确定单层递归的逻辑：
 然后是right不断递归到底：right = self.preorderTraversal(root.right) # “影分身”运行后，得到的是right = [6,7,8]
 
 最后看是什么顺序combine：比如前序（中左右），就是[root.val]+left+right按这样的顺序组成list。# 最后就是return [5] + left即[4,1,2] + right即[6,7,8]。
-
+<img width="637" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/db5821e7-9706-4453-81a8-3860aca25e69">
 ```
 关于具体是怎么递归运行的：
 XXX(5):
     left = XXX(4) 碰到函数就走不动道了，一定要运行完了再说
         left = XXX(1)
             left = XXX(None), return [] 其实按照路径是先走到最底部的，之后最后回过来return存入的时候，会把root存在前面而已。
+【这就是为什么前中后序的代码 只有最后一句-存入的时候 root的位置不一样，因为路径都是一样的-先走到最底部-毕竟DFS】
             right = XXX(None), return []
             return [1]+[]+[] -> [1]
         right = XXX(2) 
@@ -100,7 +101,44 @@ XXX(5):
 
     return [5] + [4,1,2] + [6,7,8]
 ```      
-        
+
+#### 具体代码-前序：
+```
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+
+        left = self.preorderTraversal(root.left)
+        right = self.preorderTraversal(root.right)
+
+        return  [root.val] + left +  right
+```
+#### 具体代码-中序：
+```
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+
+        left = self.inorderTraversal(root.left)
+        right = self.inorderTraversal(root.right)
+
+        return left + [root.val] + right
+```
+#### 具体代码-后序：
+```
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+
+        left = self.postorderTraversal(root.left)
+        right = self.postorderTraversal(root.right)
+
+        return left + right + [root.val]
+```
+
 ## BFS：一层一层（一圈一圈）去遍历。
 
 
