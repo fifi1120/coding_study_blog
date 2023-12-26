@@ -7,22 +7,22 @@
 ```
 class Stack:
     def __init__(self):
-        self.lst = []  # 初始化一个空列表
+        self.lst = []  
 
-    def push(self, item):
-        self.lst.append(item)  # 使用 append 方法来添加元素
+    def push(self, item): # 不要漏掉self：在Python中，当你在类内部定义一个方法时，第一个参数总是 self。
+        self.lst.append(item) 
 
     def pop(self):
-        return self.lst.pop()  # 使用 pop 方法来移除最后一个元素
+        return self.lst.pop()  
 
     def peek(self):
-        return self.lst[-1] if self.lst else None  # 查看栈顶元素
+        return self.lst[-1] if self.lst else None  
 
     def is_empty(self):
-        return not self.lst  # 检查栈是否为空
+        return not self.lst  
 
     def size(self):
-        return len(self.lst)  # 获取栈的大小
+        return len(self.lst)  
 ```
 
 ### （不推荐，看看就好）使用collections.deque实现stack：
