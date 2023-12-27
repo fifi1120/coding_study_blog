@@ -77,16 +77,13 @@ class Solution:
         slow = fast = 0
         length = len(res)
 
-        while fast < length:
-            # 如果一样直接换，不一样会把后面的填在slow的位置
-            res[slow] = res[fast]
-            
-            # 如果发现和前一个一样，就退一格指针
+        while fast < length: # 我维护的一直都是slow这个列表
+            res[slow] = res[fast] 
             if slow > 0 and res[slow] == res[slow - 1]:
-                slow -= 1
+                slow -= 1 #如果重复，就回退slow指针（回退到的那个格子，会在下一轮更新fast指向的新的数字）
             else:
                 slow += 1
-            fast += 1
+            fast += 1 #fast就是一直往前走
             
         return ''.join(res[0: slow])
 ```
