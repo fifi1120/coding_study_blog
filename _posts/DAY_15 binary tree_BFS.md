@@ -16,7 +16,8 @@ class Solution:
             return []
         queue = collections.deque([root]) #deque后面的括号里面要填入一个列表，这样才能通过这句话把列表转化成deque
         result = []
-        while queue:
+        while queue: #当队列有数字的时候，考虑 1.把这些数字依次弹出并存进level 2.把这些数字的左右子节点依次存进que。
+            #同期在队列中的就是同一层的。
             level = [] #level里面会装这一层的节点有哪些
             for _ in range(len(queue)): #队列里面有几个值就loop几遍（每loop一次，都：1. 弹出那个值 2.把那个值的左子节点和右子节点装进队列）
                 cur = queue.popleft()
