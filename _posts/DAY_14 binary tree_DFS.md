@@ -166,7 +166,30 @@ nodeB.left = TreeNode(5)
 TreeNode(3).right = TreeNode(8)
 ```
 
+### 226.翻转二叉树
+遍历的过程中去翻转每一个节点的左右孩子就可以达到整体翻转的效果。
 
+注意只要把每一个节点的左右孩子翻转一下，就可以达到整体翻转的效果
+
+这道题目使用前序遍历和后序遍历都可以，唯独中序遍历不方便，因为中序遍历会把某些节点的左右孩子翻转了两次！建议拿纸画一画，就理解了
+
+那么层序遍历可以不可以呢？依然可以的！只要把每一个节点的左右孩子翻转一下的遍历方式都是可以的！
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return root
+        root.left, root.right = root.right ,root.left
+        left = self.invertTree(root.left)
+        right = self.invertTree(root.right)
+        return root
+```
 
 
 
