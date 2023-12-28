@@ -87,3 +87,48 @@ class Solution:
             
         return ''.join(res[0: slow])
 ```
+
+###  150. 逆波兰表达式求值 
+
+The division between two integers always truncates toward zero. 这句话的意思是向0取整，比如5除以2应该是2，-5除以2应该是-2。这样就好：res = int(n2/n1)。
+
+但是不能res = n2 // n1，因为这个是向下取整，有负数的时候会出问题，比如会导致5//2=2; -5//2=-3
+
+```
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        my_stack = Stack()
+        for i in tokens:
+            if not i in "+-*/":
+                my_stack.push(int(i))
+            else:
+                n1 = my_stack.pop()
+                n2 = my_stack.pop()
+                if i == "+":
+                    res = n1 + n2
+                elif i == "-":
+                    res = n2 - n1
+                elif i == "*":
+                    res = n2 * n1
+                else:
+                    res = int(n2/n1)
+                my_stack.push(res) 
+        return my_stack.lst[0]
+
+class Stack:
+    def __init__(self):
+        self.lst = []
+
+    def peek(self):
+        return self.lst[-1]
+    
+    def push(self, x):
+        self.lst.append(x)
+
+    def pop(self):
+        return self.lst.pop()
+
+    def is_empty(self):
+        return len(self.lst) == 0
+```
+时间空间复杂度都是O(N)。
