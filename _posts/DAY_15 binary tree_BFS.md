@@ -12,7 +12,7 @@
 #         self.right = right
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        if not root: #这里必须写，因为下面会有cur.val，如果根本就没有cur就会报错的。
+        if not root: #必须一开头就写，不然后面操作会报错。
             return []
         queue = collections.deque([root]) #deque后面的括号里面要填入一个列表，这样才能通过这句话把列表转化成deque
         result = []
