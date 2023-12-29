@@ -25,3 +25,24 @@ class Solution:
         depth = max(left, right) + 1 #中
         return depth
 ```
+
+### 559.n叉树的最大深度 
+
+```
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def maxDepth(self, root: 'Node') -> int:
+        if not root:
+            return 0
+        childHeight = 0
+        for child in root.children:
+            childHeight = max(childHeight, self.maxDepth(child))
+        return childHeight+1
+```
