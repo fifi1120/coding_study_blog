@@ -198,15 +198,43 @@ class Solution:
 比如这个图中，左边的2节点的左节点是3，右边的2节点的左节点是4，所以不能 if 左节点==左节点 and 右节点==右节点；而应该是：if 外侧节点==外侧节点 and 内侧节点==内侧节点
 
 这道题的遍历方式最好用后序遍历（左右中），因为需要先判断左右子树是否对称，然后才能判断中间根节点代表的那个小数是否对称。
-
+```
 判断2个root开头的小树是否镜像的步骤相当于：
 
 1.先看root，看几个方面：左右孩子是不是要存在都存在，要不存在都不存在；root的值是不是相等。
 2.递归outside：左边树的左孩子 是否== 右边树的右孩子
 3.递归inside：左边树的右孩子 是否== 右边树的左孩子
 4.对小树下结论：（因为root已经知道val相等了，不然在第一步就已经return False）看outside and inside是否为True。
+```
 
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
+        return self.compare(root.left, root.right)
 
+    def compare(self, left, right):
+        if left == None and right != None:
+            return False
+        elif left != None and right == None:
+            return False
+        elif left == None and right == None: 
+            return True
+        elif left.val != right.val: #这句话要写在最后，因为前面要排除left或者right是None的情况，不然会报错
+            return False
+        
+        outside = self.compare(left.left, right.right)
+        inside = self.compare(left.right, right.left)
+        res = outside and inside
+        return res
+```
 
 
 
