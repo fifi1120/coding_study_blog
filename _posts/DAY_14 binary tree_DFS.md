@@ -190,6 +190,25 @@ class Solution:
         right = self.invertTree(root.right)
         return root
 ```
+### 101. 对称二叉树
+有一点很重要：我们要比较的是两棵树，而不是简单地比较左右节点的值。
+
+<img width="405" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/78380bf4-0718-47f6-9283-e36e161697fb">
+
+比如这个图中，左边的2节点的左节点是3，右边的2节点的左节点是4，所以不能 if 左节点==左节点 and 右节点==右节点；而应该是：if 外侧节点==外侧节点 and 内侧节点==内侧节点
+
+这道题的遍历方式最好用后序遍历（左右中），因为需要先判断左右子树是否对称，然后才能判断中间根节点代表的那个小数是否对称。
+
+判断2个root开头的小树是否镜像的步骤相当于：
+
+1.先看root，看几个方面：左右孩子是不是要存在都存在，要不存在都不存在；root的值是不是相等。
+2.递归outside：左边树的左孩子 是否== 右边树的右孩子
+3.递归inside：左边树的右孩子 是否== 右边树的左孩子
+4.对小树下结论：（因为root已经知道val相等了，不然在第一步就已经return False）看outside and inside是否为True。
+
+
+
+
 
 
 
