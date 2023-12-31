@@ -6,7 +6,7 @@ DAY1 代码随想录训练营 数组1/2
 
 有且仅有2种写法：
 
-一 左闭右闭 [left,right] left和right的每次调整都是mid+1或mid-1 while left <= right --> 我选定这一种
+### 左闭右闭 [left,right] left和right的每次调整都是mid+1或mid-1 while left <= right --> 我选定这一种
 
 【顺口溜：左闭右闭，加一减一，小于等于。】
 
@@ -33,7 +33,7 @@ DAY1 代码随想录训练营 数组1/2
     return -1 # cannot find
 
 
-二 左闭右开 [left,right) left和right的调整为mid+1和mid while left < right 
+### 左闭右开 [left,right) left和right的调整为mid+1和mid while left < right 
 
     left = 0 
     
