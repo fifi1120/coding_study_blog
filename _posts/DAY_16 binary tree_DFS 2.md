@@ -46,3 +46,25 @@ class Solution:
             childHeight = max(childHeight, self.maxDepth(child))
         return childHeight+1
 ```
+
+### 111.二叉树的最小深度
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        left = self.minDepth(root.left)
+        right = self.minDepth(root.right)
+        if (not left) and right:
+            return right + 1 # 需要知道：如果出现叶子节点了，是要return的
+        if (not right) and left:
+            return left + 1 # 需要知道：如果出现叶子节点了，是要return的
+        depth = min(left, right) + 1 #如果一直没有叶子节点，就只是在这一步递归
+        return depth
+```
