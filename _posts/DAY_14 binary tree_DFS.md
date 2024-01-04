@@ -287,5 +287,43 @@ class Solution:
         return self.compare(p.left, q.left) and self.compare(p.right, q.right) #helper函数的递归
 ```
 
+### 222.完全二叉树的节点个数
 
+##### 如果是求普通二叉树的节点个数呢？
+```
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        return self.getNodesNum(root)
+        
+    def getNodesNum(self, cur):
+        if not cur:
+            return 0
+        leftNum = self.getNodesNum(cur.left) 
+        rightNum = self.getNodesNum(cur.right) #右
+        treeNum = leftNum + rightNum + 1 #中
+        return treeNum
+```
 
+##### 如果是完全二叉树，节点总个数 = 满二叉树的节点数（满二叉树的节点个数是2 ** n -1) + 其他
+```
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        left = root.left
+        right = root.right
+        leftDepth = 1 
+        rightDepth = 1
+        while left: #求左子树深度
+            left = left.left
+#从这一块其实是个剪枝操作，如果满足了leftDepth == rightDepth，就直接按照公式return，就节省时间复杂度了。
+            leftDepth += 1
+        while right: #求右子树深度
+            right = right.right
+            rightDepth += 1
+        if leftDepth == rightDepth:
+            return 2 ** leftDepth - 1 
+        left = self.countNodes(root.left)
+        right = self.countNodes(root.right)
+        return left + right + 1
+```
