@@ -310,20 +310,19 @@ class Solution:
     def countNodes(self, root: TreeNode) -> int:
         if not root:
             return 0
-        left = root.left
-        right = root.right
-        leftDepth = 1 
-        rightDepth = 1
-        while left: #求左子树深度
-            left = left.left
-#从这一块其实是个剪枝操作，如果满足了leftDepth == rightDepth，就直接按照公式return，就节省时间复杂度了。
-            leftDepth += 1
-        while right: #求右子树深度
-            right = right.right
-            rightDepth += 1
-        if leftDepth == rightDepth:
-            return 2 ** leftDepth - 1 
-        left = self.countNodes(root.left)
-        right = self.countNodes(root.right)
-        return left + right + 1
+        leftNode = root.left
+        rightNode = root.right
+        leftNum = 1
+        rightNum = 1
+        while leftNode:
+            leftNode = leftNode.left
+            leftNum += 1
+        while rightNode:
+            rightNode = rightNode.right
+            rightNum += 1
+        if leftNum == rightNum: # 其实是剪枝操作
+            return 2 ** leftNum - 1 
+        leftNum = self.countNodes(root.left)
+        rightNum = self.countNodes(root.right)
+        return leftNum + rightNum +1
 ```
