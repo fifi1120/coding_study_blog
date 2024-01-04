@@ -287,7 +287,7 @@ class Solution:
         return self.compare(p.left, q.left) and self.compare(p.right, q.right) #helper函数的递归
 ```
 
-### 222.完全二叉树的节点个数
+### 222.完全二叉树的节点个数 - 有趣，推荐再做一遍（普通二叉树+完全二叉树）
 
 ##### 如果是求普通二叉树的节点个数呢？
 ```
