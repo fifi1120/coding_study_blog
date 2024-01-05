@@ -11,12 +11,6 @@ leetcode一般是规定根节点的深度是1；叶子节点的高度是1.
 比较直接（但复杂度较高）的操作是：
 
 ```
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
         if root is None:
@@ -46,12 +40,6 @@ class Solution:
 修改后的算法在发现任何不平衡的子树时会立即返回一个特殊的值（例如 -999），来表示该子树不平衡。如果子树是平衡的，则返回其高度。
 
 ```
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
         return self.checkBalance(root) != -999
@@ -71,7 +59,9 @@ class Solution:
         if abs(left_height - right_height) > 1:
             return -999  # 当前节点的子树不平衡
 
-        return max(left_height, right_height)+1 # 这里return树的高度需要时准确的数值而不是True / False就行，因为在递归的时候，需要用这个数值不停计算abs(left-right)。
+        return max(left_height, right_height)+1
+# 如果上面的几种情况都没有发生（一直看起来都是平衡的），没有提前结束循环，就来到这一步：计算新的高度。
+# 这里return树的高度需要时准确的数值而不是True / False就行，因为在递归的时候，需要用这个数值不停计算abs(left-right)。
 ```
 
-这个的时间复杂度是O(n)，因为只遍历了一遍
+这个的时间复杂度是O(n)，因为只遍历了一遍。空间复杂度还是O(n)，即最坏情况下树完全不平衡，像是链表，需要调用栈的深度是O(n)。
