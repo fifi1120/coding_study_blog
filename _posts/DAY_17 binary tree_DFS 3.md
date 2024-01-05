@@ -41,25 +41,26 @@ class Solution:
 
 ```
 class Solution:
-    def isBalanced(self, root: TreeNode) -> bool:
-        return self.checkBalance(root) != -999
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        return self.height(root) != -999
 
-    def checkBalance(self, node: TreeNode) -> int:
-        if node is None:
+
+    def height(self, root):
+        if not root:
             return 0
+        left = self.height(root.left)
+        if left == -999:
+            return -999
+        
+        right = self.height(root.right)
+        if right == -999:
+            return -999
 
-        left_height = self.checkBalance(node.left)
-        if left_height == -999:
-            return -999  # 左子树不平衡
+        gap = abs(left - right)
+        if gap > 1:
+            return -999
 
-        right_height = self.checkBalance(node.right)
-        if right_height == -999:
-            return -999  # 右子树不平衡
-
-        if abs(left_height - right_height) > 1:
-            return -999  # 当前节点的子树不平衡
-
-        return max(left_height, right_height)+1
+        return max(left, right)+1
 # 如果上面的几种情况都没有发生（一直看起来都是平衡的），没有提前结束循环，就来到这一步：计算新的高度。
 # 这里return树的高度需要时准确的数值而不是True / False就行，因为在递归的时候，需要用这个数值不停计算abs(left-right)。
 ```
