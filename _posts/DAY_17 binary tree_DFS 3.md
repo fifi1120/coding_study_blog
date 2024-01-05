@@ -22,7 +22,7 @@ class Solution:
         if root is None:
             return True
 
-        leftDepth = self.getDepth(root.left) # 二次递归了
+        leftDepth = self.getDepth(root.left) # 二次递归了，使时间复杂度达到O(n^2)。
         rightDepth = self.getDepth(root.right)
 
         if abs(leftDepth - rightDepth) > 1:
@@ -39,3 +39,39 @@ class Solution:
 
         return max(leftDepth, rightDepth) + 1
 ```
+空间复杂度主要由递归调用栈的最大深度决定。在最坏的情况下（树完全不平衡，形似链表），递归调用栈的深度可以达到O(n)，其中n是树的高度。因此，空间复杂度为O(n)。
+
+为了降低上述代码的时间复杂度，您可以将 getDepth 方法调整为在计算深度的同时检查树是否平衡。这样一来，每个节点只需访问一次，从而将时间复杂度降低到 O(n)，其中 n 是树的节点数。
+
+修改后的算法在发现任何不平衡的子树时会立即返回一个特殊的值（例如 -999），来表示该子树不平衡。如果子树是平衡的，则返回其高度。
+
+```
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        return self.checkBalance(root) != -999
+
+    def checkBalance(self, node: TreeNode) -> int:
+        if node is None:
+            return 0
+
+        left_height = self.checkBalance(node.left)
+        if left_height == -999:
+            return -999  # 左子树不平衡
+
+        right_height = self.checkBalance(node.right)
+        if right_height == -999:
+            return -999  # 右子树不平衡
+
+        if abs(left_height - right_height) > 1:
+            return -999  # 当前节点的子树不平衡
+
+        return max(left_height, right_height)+1 # 这里return树的高度需要时准确的数值而不是True / False就行，因为在递归的时候，需要用这个数值不停计算abs(left-right)。
+```
+
+这个的时间复杂度是O(n)，因为只遍历了一遍
