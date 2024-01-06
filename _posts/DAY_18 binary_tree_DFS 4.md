@@ -56,3 +56,33 @@ class Solution:
             self.traversal(root.right, depth)
             depth -= 1
 ```
+
+### 112. 路径总和
+
+和257. 二叉树的全部路径很类似
+
+```
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        self.targetSum = targetSum # 这句话很重要，因为targetSum即将被同一个class下的不同函数所用到
+        self.res = False # res也要加self，因为res即将被同一个class下的不同函数所用到。
+# res要先被设置成False，因为如果满足条件会在下面函数被调成True。我一开始是把res设置成None，在traversal里如果满足targetSum就是True，否则就是False。这样不对，因为traversal函数的return是return了当前的path，但是因为res是全局变量，别的path如果不满足targetSum，又会把res调成False，但题目要求只要有一条路径是满足targetSum就好了，所以和题意不相符。
+        path = []
+        self.traversal(root, path)
+        return self.res
+
+    def traversal(self, root, path):
+        path.append(root.val)
+        if not root.left and not root.right:
+            if sum(path) == self.targetSum:
+                self.res = True 
+                return
+        if root.left:
+            self.traversal(root.left, path)
+            path.pop()
+        if root.right:
+            self.traversal(root.right, path)
+            path.pop()
+```
