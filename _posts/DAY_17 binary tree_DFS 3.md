@@ -69,4 +69,36 @@ class Solution:
 
 ### 257. 二叉树的所有路径
 
+这道题会采用前序遍历（中左右），因为是要不断回溯的，先装进去中间节点，后面的左右进行反复地装进去/弹出来。
+
+今天学到的新知识：C++里面的vector对应python是list，push_back是append,pop_back是pop().
+
+这道题设计到回溯backtracking，因为不能除了递归，这道题还要求回到上一步，然后接着重新递归。
+
+请注意：回溯和递归是一一对应的，有一个递归，就要有一个回溯，回溯要和递归永远在一起，不可以把递归和回溯拆开。
+
+```
+class Solution:
+    def binaryTreePaths(self, root): #这是题目要求的
+        if not root:
+            return []
+        result = []
+        path = []
+        self.traversal(root, path, result) # 初始状态path是每一个每一个的路径list，res是对path进行变string操作后，把所有的path装到一起
+        return result
+        
+    def traversal(self, root, path, result): # 这里的root在每一次递归的时候都会变
+        path.append(root.val)  # 中-->前序遍历先装进去中间的
+        if not root.left and not root.right:  # 终止条件是：到达叶子结点，那么这一条path就可以结束并且被放进res了
+            string_path = '->'.join(str(node) for node in path) # 怎么把list转化成string并用特殊符号链接，需要写熟一点
+            result.append(string_path)
+            return #一般对于嵌套函数，如果不是一定要在里面的函数得到一个什么结果（如高度），那么直接return停止递归就好了。因为你的path和res都是in-place修改的，直接在外层取用，内层return就好了，简化递归逻辑。同理，像110题，如果你想传达某个信息，你可以用-999这种特殊值简化，用嵌套true or false很容易混乱。【对于处理累积结果（如路径列表）的递归函数，通常不需要在内部函数中返回累积结果。】
+        if root.left:  # 左
+            self.traversal(root.left, path, result)
+            path.pop()  # 回溯，紧接在递归后面
+        if root.right:  # 右
+            self.traversal(root.right, path, result)
+            path.pop()  # 回溯
+    ```
+小tip：str(node) for node in path 这句话也可以写成map(str, path) 这是map函数的用法，map(某function, 某list) 表示for item in list, 对item对function操作。
 
