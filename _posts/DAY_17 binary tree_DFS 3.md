@@ -134,7 +134,6 @@ class Solution:
         leftValue = self.sumOfLeftLeaves(root.left)  # 左
         if root.left and not root.left.left and not root.left.right:  # 左子树是左叶子的情况
             leftValue = root.left.val
-            
         rightValue = self.sumOfLeftLeaves(root.right)  # 右
 
         sum_val = leftValue + rightValue  # 中
