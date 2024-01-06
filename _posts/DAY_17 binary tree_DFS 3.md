@@ -130,8 +130,6 @@ class Solution:
     def sumOfLeftLeaves(self, root):
         if root is None:
             return 0
-        if root.left is None and root.right is None:
-            return 0
         
         leftValue = self.sumOfLeftLeaves(root.left)  # 左
         if root.left and not root.left.left and not root.left.right:  # 左子树是左叶子的情况
