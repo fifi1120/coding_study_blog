@@ -100,7 +100,7 @@ class Solution:
         if root.right:  # 右
             self.traversal(root.right, path, result)
             path.pop()  # 回溯
-    ```
+```
 小tip：str(node) for node in path 这句话也可以写成map(str, path) 这是map函数的用法，map(某function, 某list) 表示for item in list, 对item对function操作。
 
 ### 404.左叶子之和
@@ -122,6 +122,25 @@ class Solution:
             self.find_leftleaf(root.left, lst)
         if root.right:
             self.find_leftleaf(root.right, lst)
+```
+
+不用嵌套函数的方法（左右中，后序）：
+```
+class Solution:
+    def sumOfLeftLeaves(self, root):
+        if root is None:
+            return 0
+        if root.left is None and root.right is None:
+            return 0
+        
+        leftValue = self.sumOfLeftLeaves(root.left)  # 左
+        if root.left and not root.left.left and not root.left.right:  # 左子树是左叶子的情况
+            leftValue = root.left.val
+            
+        rightValue = self.sumOfLeftLeaves(root.right)  # 右
+
+        sum_val = leftValue + rightValue  # 中
+        return sum_val
 ```
 
 #### 一个很重要的问题：
