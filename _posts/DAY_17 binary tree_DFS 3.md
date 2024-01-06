@@ -88,11 +88,12 @@ class Solution:
         return result
         
     def traversal(self, root, path, result): # 这里的root在每一次递归的时候都会变
-        path.append(root.val)  # 中-->前序遍历先装进去中间的
-        if not root.left and not root.right:  # 终止条件是：到达叶子结点，那么这一条path就可以结束并且被放进res了
+        path.append(root.val)  # 中-->前序遍历先装进去中间的，千万不要漏掉哈。先写这个，再写终止条件，因为中间节点是一定会被放进去的，无论有没有子树。
+        if not root.left and not root.right:  # 终止条件这里不是if not root了，而是：到达叶子结点，那么这一条path就可以结束并且被放进res了
             string_path = '->'.join(str(node) for node in path) # 怎么把list转化成string并用特殊符号链接，需要写熟一点
             result.append(string_path)
             return #一般对于嵌套函数，如果不是一定要在里面的函数得到一个什么结果（如高度），那么直接return停止递归就好了。因为你的path和res都是in-place修改的，直接在外层取用，内层return就好了，简化递归逻辑。同理，像110题，如果你想传达某个信息，你可以用-999这种特殊值简化，用嵌套true or false很容易混乱。【对于处理累积结果（如路径列表）的递归函数，通常不需要在内部函数中返回累积结果。】
+# 这个 return 停止的是对当前节点（在这种情况下是一个叶子节点）的 traversal 函数调用。它并不会影响到其他路径的遍历或其他递归调用。换句话说，它只结束当前路径的处理。
         if root.left:  # 左
             self.traversal(root.left, path, result)
             path.pop()  # 回溯，紧接在递归后面
