@@ -103,3 +103,32 @@ class Solution:
     ```
 小tip：str(node) for node in path 这句话也可以写成map(str, path) 这是map函数的用法，map(某function, 某list) 表示for item in list, 对item对function操作。
 
+### 404.左叶子之和
+```
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        lst = []
+        self.find_leftleaf(root, lst)
+        return sum(lst)
+
+    def find_leftleaf(self, root, lst):
+        if not root: # base case
+            return 0
+        if root and root.left and not root.left.left and not root.left.right: # 只有在上一层的时候，才能更好地判断下一层是不是左叶子
+            lst.append(root.left.val) # 请注意这后面千万没有跟着return，这就是一个满足条件就加进去的，很简单的思路不用复杂化了
+        if root.left:
+            self.find_leftleaf(root.left, lst)
+        if root.right:
+            self.find_leftleaf(root.right, lst)
+```
+
+#### 一个很重要的问题：
+为什么257. 二叉树的所有路径的base case是if not root.left and not root.right:
+
+但是404.左叶子之和的base case只是简单的if not root:，而不是if root and root.left and not root.left.left and not root.left.right:，
+
+这是因为两道题的要求不一样，所以实现的方式也有所不同。
+
+257要求求很多不同的path，所以必然得不停地在达到叶子节点的时候return，得到一条一条的path，所以终止条件是需要在path结束的时候终止；但是404只需要把所有的节点全部遍历，过程中把某些满足条件的节点加到某个list里面就好了，只有从头到尾遍历一遍，那终止条件当然是if not root。
