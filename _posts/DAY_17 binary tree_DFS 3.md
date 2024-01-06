@@ -139,6 +139,7 @@ class Solution:
         sum_val = leftValue + rightValue  # 中
         return sum_val
 ```
+平时我们解二叉树的题目时，已经习惯了通过节点的左右孩子判断本节点的属性，而本题我们要通过节点的父节点判断本节点的属性。
 
 #### 一个很重要的问题：
 为什么257. 二叉树的所有路径的base case是if not root.left and not root.right:
