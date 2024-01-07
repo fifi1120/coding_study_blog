@@ -86,3 +86,36 @@ class Solution:
             self.traversal(root.right, path)
             path.pop()
 ```
+### 类似题目：113. 路径总和ii
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        path = []
+        self.targetSum = targetSum
+        self.traversal(root, path, res)
+        return res
+
+    def traversal(self, root, path, res):
+        path.append(root.val)
+        if not root.left and not root.right:
+            if sum(path) == self.targetSum:
+                res.append(list(path)) # 请注意这里一定是list(path)，而不能简单的res.append(path)
+# 如果直接res.append(path)，会出现：当一个路径被添加到 res 中时，它是作为一个引用被添加的。这意味着，后续对 path 的任何修改都会影响到已经存储在 res 中的那个路径。为了修复这个问题，我们需要在添加路径到 res 时创建 path 的一个副本。
+# 在 Python 中，当您使用 list(path) 时，您实际上是创建了 path 的一个浅拷贝（shallow copy）。这意味着您创建了一个新的列表对象，其内容是原始列表 path 中元素的副本。
+                return
+        if root.left:
+            self.traversal(root.left, path, res)
+            path.pop()
+        if root.right:
+            self.traversal(root.right, path, res)
+            path.pop()
+```
