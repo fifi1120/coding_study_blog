@@ -119,3 +119,52 @@ class Solution:
             self.traversal(root.right, path, res)
             path.pop()
 ```
+
+### 106.从中序与后序遍历序列构造二叉树 
+
+这是一道需要自己构建二叉树的题目，需要一层层切割数组——一层一层切割，就应该想到了递归。
+
+一共分几步：
+
+第一步：如果数组大小为零的话，说明是空节点了。
+
+第二步：如果不为空，那么取后序数组最后一个元素作为节点元素。
+
+第三步：找到后序数组最后一个元素在中序数组的位置，作为切割点
+
+第四步：切割中序数组，切成中序左数组和中序右数组 （顺序别搞反了，一定是先切中序数组）
+
+第五步：切割后序数组，切成后序左数组和后序右数组
+
+第六步：递归处理左区间和右区间
+
+```
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        # 第一步: base case，当没有元素给我构造树了。
+        # 对于构建二叉树的递归函数来说，基础情形通常是判断是否还有元素可以用来构建树。
+        if not inorder: 
+            return None
+
+        # 第二步: 找整棵树的root节点。
+        # 后序数组的最后一个就是整棵树的中间节点.
+        root_val = postorder[-1]
+        root = TreeNode(root_val) # 构造root节点
+
+        # 第三步: 在中序数组中找到root节点的index。
+        separator_idx = inorder.index(root_val)
+
+        # 第四步: 切中序数组。（根据root节点index）
+        inorder_left = inorder[:separator_idx] 
+        inorder_right = inorder[separator_idx + 1:]
+
+        # 第五步: 切后序数组。（根据刚刚被切出来的中序数组左右长度）
+        postorder_left = postorder[:len(inorder_left)]
+        postorder_right = postorder[len(inorder_left): len(postorder) - 1]
+
+        # 第六步: 用递归连接不断生成的左子树和右子树。
+        root.left = self.buildTree(inorder_left, postorder_left) # root.left = xxx 开始连接树的节点
+        root.right = self.buildTree(inorder_right, postorder_right)
+         # 第七步: 返回答案
+        return root
+```
