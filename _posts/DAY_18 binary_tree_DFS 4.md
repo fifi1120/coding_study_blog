@@ -170,3 +170,28 @@ class Solution:
          # 第七步: 返回答案
         return root
 ```
+
+### 相似题目：105.从前序与中序遍历序列构造二叉树
+
+```
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if not preorder:
+            return None
+        
+        root_val = preorder[0]
+        root = TreeNode(root_val)
+
+        root_index = inorder.index(root_val)
+
+        inorder_left = inorder[:root_index]
+        inorder_right = inorder[root_index+1:]
+
+        preorder_left = preorder[1:len(inorder_left)+1]
+        preorder_right = preorder[1+len(inorder_left):]
+
+        root.left = self.buildTree(preorder_left, inorder_left)
+        root.right = self.buildTree(preorder_right, inorder_right)
+
+        return root
+```
