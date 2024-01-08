@@ -57,6 +57,7 @@ class Solution:
             depth -= 1
 ```
 
+
 ### 112. 路径总和
 
 和257. 二叉树的全部路径很类似
@@ -120,6 +121,7 @@ class Solution:
             path.pop()
 ```
 
+
 ### 106.从中序与后序遍历序列构造二叉树 
 
 这是一道需要自己构建二叉树的题目，需要一层层切割数组——一层一层切割，就应该想到了递归。
@@ -144,7 +146,7 @@ class Solution:
         # 第一步: base case，当没有元素给我构造树了。
         # 对于构建二叉树的递归函数来说，基础情形通常是判断是否还有元素可以用来构建树。
         if not inorder: 
-            return None
+            return None # 注意这里一定要是return None而不是return。因为当你没有节点值可以构造树的时候
 
         # 第二步: 找整棵树的root节点。
         # 后序数组的最后一个就是整棵树的中间节点.
@@ -160,7 +162,7 @@ class Solution:
 
         # 第五步: 切后序数组。（根据刚刚被切出来的中序数组左右长度）
         postorder_left = postorder[:len(inorder_left)]
-        postorder_right = postorder[len(inorder_left): len(postorder) - 1]
+        postorder_right = postorder[len(inorder_left): len(inorder_right)+len(inorder_left)]
 
         # 第六步: 用递归连接不断生成的左子树和右子树。
         root.left = self.buildTree(inorder_left, postorder_left) # root.left = xxx 开始连接树的节点
