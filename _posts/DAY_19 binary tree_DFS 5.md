@@ -71,3 +71,28 @@ class Solution:
             else:
                 return root
 ```
+
+### 98.验证二叉搜索树
+
+二叉搜索树的陷阱：需要左子树<中间节点<右子树，而不能仅仅是左节点<中间节点<右节点。
+
+其实二叉搜索树有个特点，就是如果你中序遍历（左中右）并放进list，会发现list里面的数字是从小到大排列的 - 可以用这个特性去做。
+
+```
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        self.lst = [] # 这里生命全局变量之后，记得以后出现lst都要加self了。
+        self.traversal(root)
+        for i in range(1, len(self.lst)):
+            if self.lst[i] <= self.lst[i-1]:
+                return False
+        return True
+
+
+    def traversal(self, root):
+        if not root:
+            return
+        self.traversal(root.left)
+        self.lst.append(root.val)
+        self.traversal(root.right)
+```
