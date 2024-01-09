@@ -23,6 +23,9 @@ class Solution:
 ###  501.二叉搜索树中的众数 
 
 大致思路自己知道，但是collections.Counter函数和字典操作还是不太熟练。可以再做。
+
+二刷再领悟双指针
+
 ```
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
