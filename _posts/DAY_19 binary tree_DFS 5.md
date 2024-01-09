@@ -21,3 +21,53 @@ class Solution:
 
         return root
 ```
+### 617.合并二叉树 
+
+庆祝自己第二次独立写出tree的题目
+
+```
+class Solution:
+    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root1 and not root2:
+            return None
+        if not root1:
+            return root2
+        if not root2:
+            return root1
+        root_val = root1.val + root2.val
+        root = TreeNode(root_val)
+
+        root.left = self.mergeTrees(root1.left, root2.left)
+        root.right = self.mergeTrees(root1.right, root2.right)
+
+        return root
+```
+### 700.二叉搜索树中的搜索 
+
+庆祝自己第三次独立写出tree的题目。。。。。。。
+自己的写法：
+```
+class Solution:
+    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        if not root:
+            return None
+        if root.val == val:
+            return root
+        if root.val > val:
+            return self.searchBST(root.left, val)
+        else:
+            return self.searchBST(root.right, val)
+        # return None - 这里其实可以不写最后一句，因为反正总会递归到if not root: return None的那一步的
+```
+其实用迭代法（While loop)也是非常直觉性和方便的：
+```
+class Solution:
+    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        while root:
+            if val > root.val:
+                root = root.right
+            elif val < root.val:
+                root = root.left
+            else:
+                return root
+```
