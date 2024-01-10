@@ -64,17 +64,17 @@ class Solution:
 # base case：1.如果到叶子节点不能再往下了，即root is None 2.找到了p或者找到了q，就return 当前的这个p或者q
             return root
 
-        left = self.lowestCommonAncestor(root.left, p, q) # 左 。 left_subtree就是往左边遍历的最早找到的含p/q的那颗树（如果走到最左下还没有的话，还是会(if root is None: return root-None) 此时就会到下一句话right_subtree = self.lowestCommonAncestor(root.right, p, q) 往右边去看，其实就是后序遍历的基础做法左右中。到最后所有节点都会被遍历一遍的。
-        right = self.lowestCommonAncestor(root.right, p, q) # 右 。 right_subtree就是往右边遍历的最早找到的含p/q的那颗树
+        left_node = self.lowestCommonAncestor(root.left, p, q) # 左 。 left_subtree就是往左边遍历的最早找到的含p/q的那颗树的root node（如果走到最左下还没有的话，还是会(if root is None: return root-None) 此时就会到下一句话right_subtree = self.lowestCommonAncestor(root.right, p, q) 往右边去看，其实就是后序遍历的基础做法左右中。到最后所有节点都会被遍历一遍的。
+        right_node = self.lowestCommonAncestor(root.right, p, q) # 右 。 right_subtree就是往右边遍历的最早找到的含p/q的那颗树的root node
 
-        if left is not None and right is not None: 
+        if left_node and right_node: 
 # 处理中间节点ing - 最关键的一步是：如果左边有返回值（就是找到p了，返回了p）+右边有返回值（就是找到q了，返回了q），证明此时的root就是左边和右边上面的那个节点
             return root
 
-        if left is None and right is not None: # 处理中间节点ing
-            return right
-        elif left is not None and right is None: # 处理中间节点ing
-            return left
+        elif left_node is None and right_node: # 处理中间节点ing
+            return right_node
+        elif right_node is not None and left_node: # 处理中间节点ing
+            return left_node
         else: # 处理中间节点ing
             return None
 
