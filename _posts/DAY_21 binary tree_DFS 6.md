@@ -71,11 +71,11 @@ class Solution:
 # 处理中间节点ing - 最关键的一步是：如果左边有返回值（就是找到p了，返回了p）+右边有返回值（就是找到q了，返回了q），证明此时的root就是左边和右边上面的那个节点
             return root
 
-        if left is None and right is not None:
+        if left is None and right is not None: # 处理中间节点ing
             return right
-        elif left is not None and right is None:
+        elif left is not None and right is None: # 处理中间节点ing
             return left
-        else: 
+        else: # 处理中间节点ing
             return None
 
 # 如果是example 2这种情况，其实并不需要在代码中额外做一些补充，因为直接覆盖在目前的算法中了（如果left和right其中只有一个有返回值，那么就会返回有值的那个；所以最终到最顶部，反正总是会传入更高的那个p/q的返回值的。--- 如果找不到p/q返回的是None，当一个是None一个是真正的值，最终会返回真正值。
