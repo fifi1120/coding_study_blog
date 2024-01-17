@@ -56,6 +56,7 @@ class Solution:
 ### 450.删除二叉搜索树中的节点
 
 如果要删除的节点在root右边--> root.right = return 出来的新东西 接住（会在root.val == key的那一层return的）
+
 如果要删除的节点在root左边--> root.left = return 出来的新东西 接住（会在root.val == key的那一层return的）
 
 5种情况：
