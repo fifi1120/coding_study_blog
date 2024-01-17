@@ -80,3 +80,37 @@ class Solution:
 
 # 如果是example 2这种情况，其实并不需要在代码中额外做一些补充，因为直接覆盖在目前的算法中了（如果left和right其中只有一个有返回值，那么就会返回有值的那个；所以最终到最顶部，反正总是会传入更高的那个p/q的返回值的。--- 如果找不到p/q返回的是None，当一个是None一个是真正的值，最终会返回真正值。
 ```
+
+### 235. 二叉搜索树的最近公共祖先
+
+235可以利用二叉搜索树的特性。二叉树的最近公共祖先怎么找？怎么找到的：当找到某个节点，正好被夹在p q之间，那就是了。
+
+但如果不是二叉树，236就只能从最底层开始全部遍历（后序-左右中），一个一个看找到p或q没有，如果找到，就把值返回上去，如果没找到，就当没看见。怎么找到的？当我左边有返回值右边也有返回值，最先开始出现这个状态的时候就是找到了！
+
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root: # 如果到叶子节点底下的None了，就return 停止recursion
+            return
+
+        if root.val < p.val and root.val < q.val: # 现在的节点太小了（即太左了），要往右找
+            right_candidate = self.lowestCommonAncestor(root.right, p, q)
+            # right_candidate的意思是，如果找到了最低公共祖先，right_candidate就有返回值，如果没有，会在最终return终止recursion。
+            if right_candidate: # 只有真正在右边找到了目标节点，才会走到这一步
+                return right_candidate
+
+        elif root.val > p.val and root.val > q.val: # 现在的节点太小了，往左找
+            left_candidate = self.lowestCommonAncestor(root.left, p, q)
+            if left_candidate:
+                return left_candidate
+
+        else: # 这里的情况：现在的节点在p q之间，或现在的节点==p，或现在的节点==q。---> 这才是找到了目标节点
+            return root
+```
