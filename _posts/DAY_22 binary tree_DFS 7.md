@@ -74,6 +74,12 @@ class Solution:
     def deleteNode(self, root, key):
         if root is None: # 情况一：到叶子了，所以return直接停止，也不改变什么了，没有要接住什么的需求
             return # 并不只在情况一发生，如果是情况2-4，也会走到叶子节点
+        
+        if root.val > key:
+            root.left = self.deleteNode(root.left, key)
+        if root.val < key:
+            root.right = self.deleteNode(root.right, key)
+        
         if root.val == key: 
             if root.left is None and root.right is None: # 情况二：删除的是叶子节点
                 return None # 直接删了，把None传到上一层
@@ -87,9 +93,6 @@ class Solution:
                     cur = cur.left # 让cur指向右子树的左边最下角
                 cur.left = root.left # 链接【原右子树的左边最下角】.left = 原左子树
                 return root.right # 
-        if root.val > key:
-            root.left = self.deleteNode(root.left, key)
-        if root.val < key:
-            root.right = self.deleteNode(root.right, key)
+
         return root # 最后还是return整棵树
 ```
