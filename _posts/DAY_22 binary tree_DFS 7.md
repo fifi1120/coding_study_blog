@@ -52,3 +52,30 @@ class Solution:
 
         return root # 当然要return root啦，你最后是要返回一个新的树呀
 ```
+
+### 450.删除二叉搜索树中的节点
+
+```
+class Solution:
+    def deleteNode(self, root, key):
+        if root is None: # 情况一：没有找到要删除的节点，直接就到叶子了，所以return root就是原来的那个root
+            return root # 只在情况一发生，如果是情况2-4，根本不会走到这一句话。
+        if root.val == key: 
+            if root.left is None and root.right is None: # 情况二：删除的是叶子节点
+                return None # 直接删了，把None传到上一层
+            elif root.left is None: # 情况三：左孩子是空，右孩子有数
+                return root.right 
+            elif root.right is None: # 情况四：右孩子是空，左孩子有数
+                return root.left
+            else: # 情况五：左右孩子都有数
+                cur = root.right # 让cur指针先指向右孩子，准备让右孩子上位
+                while cur.left is not None: 
+                    cur = cur.left # 让cur指向右子树的左边最下角
+                cur.left = root.left # 链接【原右子树的左边最下角】.left = 原左子树
+                return root.right # 
+        if root.val > key:
+            root.left = self.deleteNode(root.left, key)
+        if root.val < key:
+            root.right = self.deleteNode(root.right, key)
+        return root # 最后还是return整棵树
+```
