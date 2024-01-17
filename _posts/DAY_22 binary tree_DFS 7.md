@@ -72,24 +72,24 @@ class Solution:
 ```
 class Solution:
     def deleteNode(self, root, key):
-        if root is None: # 情况一：到叶子了，所以return直接停止，也不改变什么了，没有要接住什么的需求
+        if not root: # 情况一：到叶子了，所以return直接停止，也不改变什么了，没有要接住什么的需求
             return # 并不只在情况一发生，如果是情况2-4，也会走到叶子节点
         
         if root.val > key:
-            root.left = self.deleteNode(root.left, key)
+            root.left = self.deleteNode(root.left, key) # 注意这里不是 return self.deleteNode(root.left, key，而是 root.left = xxx 因为你这里一定得有一个链接root和新的被return的东西的过程
         if root.val < key:
             root.right = self.deleteNode(root.right, key)
         
         if root.val == key: 
-            if root.left is None and root.right is None: # 情况二：删除的是叶子节点
+            if not root.left and not root.right: # 情况二：删除的是叶子节点
                 return None # 直接删了，把None传到上一层
-            elif root.left is None: # 情况三：左孩子是空，右孩子有数
+            elif not root.left: # 情况三：左孩子是空，右孩子有数
                 return root.right 
-            elif root.right is None: # 情况四：右孩子是空，左孩子有数
+            elif not root.right: # 情况四：右孩子是空，左孩子有数
                 return root.left
             else: # 情况五：左右孩子都有数
                 cur = root.right # 让cur指针先指向右孩子，准备让右孩子上位
-                while cur.left is not None: 
+                while cur.left: 
                     cur = cur.left # 让cur指向右子树的左边最下角
                 cur.left = root.left # 链接【原右子树的左边最下角】.left = 原左子树
                 return root.right # 
