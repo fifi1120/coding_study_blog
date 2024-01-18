@@ -1,6 +1,7 @@
 ### 669. 修剪二叉搜索树
 
 我这辈子第一次这么清楚地明白了递归信仰之跃，。。。。。。。
+这道题可以常常复习，复习就是理解递归的本质。
 
 ```
 class Solution:
@@ -22,3 +23,23 @@ class Solution:
 ```
 
 
+### 108.将有序数组转换为二叉搜索树
+ 
+这道题是二分法+recursion的结合。
+
+原本的While Left <= right会变成if left < right: return
+
+```
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        return self.binaryBuild(nums, 0, len(nums)-1)
+
+    def binaryBuild(self, nums, left_index, right_index):
+        if left_index > right_index:
+            return
+        mid = left_index + (right_index - left_index)//2
+        root = TreeNode(nums[mid])
+        root.left = self.binaryBuild(nums, left_index, mid-1) # 相信binaryBuild(nums, left_index, mid-1)会return 用左半部分list 构建好的 平衡二叉树
+        root.right = self.binaryBuild(nums, mid+1, right_index)
+        return root
+```
