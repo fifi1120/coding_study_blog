@@ -20,9 +20,6 @@ class Solution:
         self.traversal(root.right)
 ```
 
-双指针方法：
-
-
 
 
 
