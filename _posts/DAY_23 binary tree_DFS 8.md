@@ -55,11 +55,11 @@ class Solution:
         self.traversal(root)
         return root
 
-    def traversal(self, cur): # 这个函数的目的就是in place修改树的值，右中左
-        if cur is None:
+    def traversal(self, root): # 这个函数的目的就是in place修改树的值，右中左
+        if not root:
             return    
         self.traversal(cur.right) # 右
-        cur.val += self.pre_val 
-        self.pre_val = cur.val # 中
+        root.val += self.pre_val # 这一步就是in-place修改了，如果你想in-place修改某个节点的值，你可以cur.val = xxx 直接这样赋值修改。
+        self.pre_val = root.val
         self.traversal(cur.left) # 左
 ```
