@@ -43,3 +43,23 @@ class Solution:
         root.right = self.binaryBuild(nums, mid+1, right_index)
         return root
 ```
+
+### 538.把二叉搜索树转换为累加树
+
+和DFS6的两道双指针题目类似，这里也用到了双指针cur（节点），pre_val（int）。
+
+```
+class Solution:
+    def convertBST(self, root: TreeNode) -> TreeNode:
+        self.pre_val = 0  # pre一定得单独拎出来，而不能写在递归函数里面，因为这里相当于pre指针需要是全局的，写在递归函数每次递归一次都会被更新的。。。
+        self.traversal(root)
+        return root
+
+    def traversal(self, cur): # 这个函数的目的就是in place修改树的值，右中左
+        if cur is None:
+            return    
+        self.traversal(cur.right) # 右
+        cur.val += self.pre_val 
+        self.pre_val = cur.val # 中
+        self.traversal(cur.left) # 左
+```
