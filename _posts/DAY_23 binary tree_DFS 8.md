@@ -46,7 +46,7 @@ class Solution:
 
 ### 538.把二叉搜索树转换为累加树
 
-和DFS6的两道双指针题目类似，这里也用到了双指针cur（节点），pre_val（int）。
+和DFS6的两道双指针题目类似，这里也用到了双指针root（节点），pre_val（int）。-- 其实主要就是用pre_val去累加数字而已，概念上的双指针cur pre 但是实际写出来并没有pointer。
 
 ```
 class Solution:
