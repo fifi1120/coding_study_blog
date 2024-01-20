@@ -4,3 +4,6 @@
 
 求二叉搜索树相关：一定是左中右，中序。因为不想浪费二叉搜索树的有序性。
 
+
+二刷的时候我也搞个这个图：
+<img width="1365" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/c48842b1-6230-441d-977f-ca1ee8bfbdf0">
