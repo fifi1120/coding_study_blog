@@ -1,4 +1,4 @@
-回溯其实就是暴力搜索解法
+回溯其实就是穷举解法，把所有可能性过一遍。
 
 有recursion必有回溯
 
@@ -22,6 +22,9 @@
 回溯法的精髓：在集合中递归查找子集。
 
 用for loop横着遍历，用递归竖着遍历。
+
+<img width="743" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/9802f1e3-4ffd-4926-8e07-237f6eb5098f">
+
 
 
 N叉树：
@@ -73,9 +76,9 @@ def backtracking(参数):
 ```
 
 
-LC77
+### 77. 组合 
 
-不剪枝：
+#### 不剪枝：
 
 ```
 class Solution:
@@ -94,7 +97,7 @@ class Solution:
 
 ```
 
-总模板：
+# 总模板：
 ```
 def XXX:
   res = []
@@ -113,7 +116,7 @@ def backtracking(self, xxx):
 ```
 
 
-剪枝：主要是在优化backtracking的单层搜索逻辑。
+#### 剪枝：主要是在优化backtracking的单层搜索逻辑。
 ```
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
