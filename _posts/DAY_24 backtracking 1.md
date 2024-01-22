@@ -89,7 +89,7 @@ class Solution:
         if len(path) == k: #终止条件是：当path里面存够了需要的树（到达叶子节点）
             result.append(path[:]) #存进res
             return
-        for i in range(startIndex, n + 1):  # 题目逻辑：不能重复选取
+        for i in range(startIndex, n + 1):  # 组合问题就要这样做，避免重复。哪怕题目要求可以 用相同元素，也要这么写，这么写的目的是让结果不会有[1,2]和[2,1]这样的重复组合。
             path.append(i)  # 处理节点，放进path
             self.backtracking(n, k, i + 1, path, result) #recursion，其实本身再次调用自己，就是走深一层的意思（沿着树枝往下）。比如k=5，那么其实会一遍一遍不停调用4遍，直到走到叶子节点。这里（把i+1）就是为了避免重复的微调。
             path.pop()  # 回溯，撤销处理的节点
