@@ -62,15 +62,16 @@ class Solution:
         return res
 
     def backtracking(self, s, startIndex, path, res):
-        if startIndex >= len(s): #切到最后一个。这个分割方法一定是valid的，因为我是按照一定会是回文串的方式切割的---只有确认了是回文串，才会来到这一步（所以最后一个小节也是确认过回文串才来到这一步的吗？--是的。一定走过了整个list，确认了分割方式，分完了之后才能走到这个base case的。）所以，既然已经走到了最后一步，path完整了，此刻需要把path装到res里。可能此刻的path=["aa","b"]
+        if startIndex > len(s)-1: #切到最后一个。这个分割方法一定是valid的，因为我是按照一定会是回文串的方式切割的---只有确认了是回文串，才会来到这一步（所以最后一个小节也是确认过回文串才来到这一步的吗？--是的。一定走过了整个list，确认了分割方式，分完了之后才能走到这个base case的。）所以，既然已经走到了最后一步，path完整了，此刻需要把path装到res里。可能此刻的path=["aa","b"]
+# 注意这里一定是> len(s)-1 因为最后一位索引是len(s)-1，所以当我的startIndex > len(s)-1 就是path已经走完全部了，现在是要终止了的意思。
             res.append(path[:])
             return
         
-        for i in range(startIndex, len(s)): # startIndex是切第一刀，i在切了第一刀的基础上，切第二刀
+        for i in range(startIndex, len(s)): # 记得这里一定是startIndex不是0哈！！！！！！！！startIndex是切第一刀，i在切了第一刀的基础上，切第二刀
             if self.isPalin(s[startIndex:i+1]): # 是要看path里面的东西是不是回文子串，我自己最开始直接self.isPalin(path)，就错了，应该是s[startIndex:i+1]。如果这个“里面的东西”是回文串，就把它加到我的path里。
                 path.append(s[startIndex:i+1])
                 self.backtracking(s, i+1 , path, res) # 这里一定是在for loop下面的。因为只有刚刚切的事回文串了，我才能把i+1当做新的startIndex，继续往下切割，不然就直接i++看下一个i能不能切。
-                path.pop()
+                path.pop() # 千万别漏了
 
     def isPalin(self, s):
         left = 0
