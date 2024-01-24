@@ -11,7 +11,7 @@ class Solution:
             results.append('.'.join(path))
             return
 
-        if len(path) > 4:  # 剪枝 对于时间复杂度提升挺大的
+        if len(path) > 4:  # 剪枝 对于时间复杂度提升挺大的，别漏了
             return
 
         for i in range(startIndex, len(s)):
@@ -21,7 +21,7 @@ class Solution:
                 path.pop()
 
     def is_valid(self, string):
-        if string[0] == '0' and len(string) != 1:  # 0开头，但又不是只是0的数字不合法
+        if string[0] == '0' and len(string) != 1:  # 0开头，但又不是只是0的数字不合法。特别注意：这里是if string[0] == "0" 而不是 if string[0] == 0数字0，这里特别容易忽略！！！
             return False
         if int(string) > 255:
             return False
