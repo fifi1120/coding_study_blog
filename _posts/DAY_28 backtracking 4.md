@@ -27,3 +27,23 @@ class Solution:
             return False
         return True
 ```
+
+### 78.子集
+```
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.backtracking(nums, 0, [], res)
+        return res
+
+    def backtracking(self, nums, startIndex, path, res):
+        res.append(path[:]) # 我之前觉得这里很难写base case：到底什么时候停呢？但其实，我们会发现，之前的题目都是到叶子节点后把path装进res，但是这里是收集子集，你会发现每一个节点，都会成为我的答案。所以这里并不需要像以前一样，if 到达叶子节点: res.append(path[:])而是每次递归后（下一层后）直接res.append(path[:])，就装进了所有的节点。
+        if startIndex > len(nums) - 1:
+            return # 所谓的base case是这样的，其实不用写，因为下面的for规定了范围。为了模板标准，还是先写上。
+
+        for i in range(startIndex, len(nums)):
+            path.append(nums[i])
+            self.backtracking(nums, i+1, path, res)
+            path.pop()
+```
+
