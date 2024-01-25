@@ -47,3 +47,24 @@ class Solution:
             path.pop()
 ```
 
+###  90.子集II 
+
+```
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res = []
+        self.backtracking(nums, 0, [],res)
+        return res
+
+
+    def backtracking(self, nums, startIndex, path, res): #[1,1,2]
+        res.append(path[:]) # res=[[],[1]]
+
+        for i in range(startIndex, len(nums)): # range(0,3),i=0,1,2;when i=0
+            if i > startIndex and nums[i] == nums[i-1]: # 注意这里一定是大于startIndex表示在同一行剪枝，而不仅仅是i>0
+                continue
+            path.append(nums[i]) #path=[1]
+            self.backtracking(nums, i+1, path, res) #xxx(nums, 2, path, res)
+            path.pop()
+```
