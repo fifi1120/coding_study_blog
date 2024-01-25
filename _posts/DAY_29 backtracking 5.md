@@ -26,3 +26,25 @@ class Solution:
             self.backtracking(nums, i+1, path, res)
             path.pop()
 ```
+
+### 46.全排列
+组合问题，并不需要用到startIndex了。就直接看”用过“与否。
+```
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.backtracking(nums, [], res)
+        return res
+
+    def backtracking(self, nums, path, res):
+        if len(path) == len(nums):
+            res.append(path[:]) #这里千万别漏了[:]
+            return
+        for i in range(0, len(nums)):
+            if nums[i] in path:
+                continue
+            else:
+                path.append(nums[i]) # 这里千万别漏了append
+            self.backtracking(nums, path, res)
+            path.pop()
+```
