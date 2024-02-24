@@ -50,27 +50,30 @@ class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         m, n = len(grid), len(grid[0])
         visited = [[False] * n for _ in range(m)]
-        dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]  # 四个方向
-        result = 0
-
-        def dfs(x, y):
-            if visited[x][y] or grid[x][y] == '0':
-                return  # 终止条件：访问过的节点 或者 遇到海水
-            visited[x][y] = True
+        dirs = [(-1,0), (0,1), (1,0), (0,-1)] # 里面是列表也可以：dirs = [[0,1], [1,0], [0,-1], [-1,0]]
+        res = 0
+        # 这四行要直接背下来
+        # 其实这道题的本质是：用nested for loop计划走遍每一个方块，遇到没有访问过的陆地就+1，
+        # 然后通过DFS递归地把相邻的陆地全部visit（遇到海水或已访问的就停止）。然后下一次再碰到新的陆地，就是独立岛屿，再+1。
+        
+        def dfs(x, y): # 把dfs写在里面有一个好处，就是不用再把grid等带着写。。
+            if grid[x][y] == "0" or visited[x][y]:
+                return
+            visited[x][y] = True # 你这个visited一定要写在下面，只有陆地才能被标记“visited”，如果都标记就达不到visited区别是不是“连着”的作用
             for d in dirs:
                 nextx = x + d[0]
                 nexty = y + d[1]
-                if nextx < 0 or nextx >= m or nexty < 0 or nexty >= n:  # 越界了，直接跳过
+                if nextx < 0 or nextx >= m or nexty < 0 or nexty >= n: # 注意这里是>=，因为有效范围是m-1和n-1
                     continue
                 dfs(nextx, nexty)
-        
+                
         for i in range(m):
             for j in range(n):
-                if not visited[i][j] and grid[i][j] == '1':
-                    result += 1  # 遇到没访问过的陆地，+1
-                    dfs(i, j)  # 将与其链接的陆地都标记上 true
+                if grid[i][j] == "1" and (not visited[i][j]):
+                    res += 1
+                    dfs(i,j)
 
-        return result
+        return res
 ```
 
 # BFS
