@@ -57,14 +57,12 @@ class Solution:
         # 然后通过DFS递归地把相邻的陆地全部visit（遇到海水或已访问的就停止）。然后下一次再碰到新的陆地，就是独立岛屿，再+1。
         
         def dfs(x, y): # 把dfs写在里面有一个好处，就是不用再把grid等带着写。。
-            if grid[x][y] == "0" or visited[x][y]:
+            if x < 0 or x >= m or y <0 or y >= n or grid[x][y] == "0" or visited[x][y]:
                 return
             visited[x][y] = True # 你这个visited一定要写在下面，只有陆地才能被标记“visited”，如果都标记就达不到visited区别是不是“连着”的作用
             for d in dirs:
                 nextx = x + d[0]
                 nexty = y + d[1]
-                if nextx < 0 or nextx >= m or nexty < 0 or nexty >= n: # 注意这里是>=，因为有效范围是m-1和n-1
-                    continue
                 dfs(nextx, nexty)
                 
         for i in range(m):
