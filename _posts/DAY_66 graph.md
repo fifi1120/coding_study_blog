@@ -1,6 +1,6 @@
 # DFS
 
-DFS的代码框架：
+## DFS的代码框架：
 
 ```
 def dfs(graph, root, path, res):
@@ -75,7 +75,7 @@ class Solution:
 
 # BFS
 
-### BFS模板：
+## BFS模板：
 
 ```
 from collections import deque
@@ -102,4 +102,47 @@ def bfs(grid, visited, x, y):
       if not visited[nextx][nexty]: # 如果节点没被访问过  
         queue.append((nextx, nexty)) # 加入队列
         visited[nextx][nexty] = True # 标记为访问过的节点
+```
+
+### BFS模板题
+
+### 200 岛屿数量
+
+```
+class Solution:
+    def __init__(self):
+        self.dirs = [[0, 1], [1, 0], [-1, 0], [0, -1]] 
+        
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        visited = [[False]*n for _ in range(m)]
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if visited[i][j] == False and grid[i][j] == '1':
+                    res += 1
+                    self.bfs(grid, i, j, visited)  # Call bfs within this condition
+        return res
+
+    def bfs(self, grid, i, j, visited):
+        q = deque()
+        q.append((i,j))
+        visited[i][j] = True
+        while q:
+            x, y = q.popleft()
+            for k in range(4):
+                next_i = x + self.dirs[k][0]
+                next_j = y + self.dirs[k][1]
+
+                if next_i < 0 or next_i >= len(grid):
+                    continue 
+                if next_j < 0 or next_j >= len(grid[0]):
+                    continue
+                if visited[next_i][next_j]:
+                    continue
+                if grid[next_i][next_j] == '0':
+                    continue
+                q.append((next_i, next_j))
+                visited[next_i][next_j] = True
 ```
