@@ -74,6 +74,39 @@ class Solution:
         return res
 ```
 
+### 695 最大岛屿面积
+
+```
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        visited = [[False] * n for _ in range(m)]
+        areas = []
+        dirs = [[0,1],[1,0],[0,-1],[-1,0]]
+
+        def dfs(x,y,count):
+            if x >= m or y >= n or x < 0 or y < 0 or visited[x][y] or grid[x][y] == 0:
+                return count
+            visited[x][y] = True
+            count += 1 # 和200比多加的一行 其实一次dfs本身的含义是：从陆地1走向连接的陆地2，所以如果要求岛屿面积，每执行一次dfs就要count+=1，dfs return的时候就是（碰到海水的时候），
+                        # 也就是需要return count的时候
+            for d in dirs:
+                nextX = x + d[0]
+                nextY = y + d[1]
+                count = dfs(nextX, nextY, count)
+            return count # 和200比多加的一行
+
+        for i in range(m): 
+            for j in range(n):
+                if grid[i][j] == 1 and not visited[i][j]:
+                    areas.append(dfs(i, j, 0))
+        
+        if areas == []:
+            return 0
+        else:
+            return max(areas)
+```
+
 # BFS
 
 ## BFS模板：
