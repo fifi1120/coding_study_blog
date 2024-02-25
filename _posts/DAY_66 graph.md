@@ -116,6 +116,51 @@ class Solution:
 总结来说，是否需要在递归函数中使用返回值，取决于您如何处理和存储递归过程中生成的结果。在回溯算法中，由于结果通常是通过修改外部数据结构来存储的，所以不需要返回值。而在需要累积和传递中间结果的情况下，如您的 DFS 题目，返回值则是必需的。
 ```
 
+### 417 太平洋
+
+```
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        m, n = len(heights), len(heights[0])
+        po = [[False] * n for _ in range(m)] # 这其实就是设定visited1，等下会直接放进dfs作为parameter
+        ao = [[False] * n for _ in range(m)] # 这其实就是设定visited2，等下会直接放进dfs作为parameter
+        dirs = [[0,1], [1,0], [0,-1], [-1,0]]
+        res = []
+
+        def dfs(visited, x, y):
+            if x < 0 or y < 0 or x >= m or y >= n or visited[x][y]:
+                return
+            visited[x][y] = True
+            for d in dirs:
+                nextX = x + d[0]
+                nextY = y + d[1]
+                if nextX < 0 or nextY < 0 or nextX >= m or nextY >= n or visited[nextX][nextY]:
+                    continue
+                if heights[nextX][nextY] < heights[x][y]:
+                    # 这一行不能移动到base case，因为要比较x和nextx的对应。而且由于你写了heights[next][nexty]，
+                    # 那么在前面也需要重新判定nextx和nexty是否越界
+                    continue
+                dfs(visited, nextX, nextY)
+
+# 要怎么<从低到高遍历>呢？PO的方向是从左、从上，AO的方向是从下、从右
+        for i in range(m): # for loop行，能看整列
+            dfs(po, i, 0) # 遍历PO的出发坐标：最左列【如何表示最左列：(i,0) * 行数】
+            dfs(ao, i, n-1) # 遍历AO的出发坐标：最右列【如何表示最右列：(i, n-1) * 行数】
+
+        for j in range(n):
+            dfs(po, 0, j) # 遍历PO的出发坐标：第一行【如何表示第一行：(0,j) * 列数】
+            dfs(ao, m-1, j) # 遍历AO的出发坐标：最后一行【如何表示最后一行：(m-1,j) * 列数】
+
+        for i in range(m):
+            for j in range(n):
+                if po[i][j] and ao[i][j]:
+                    res.append([i,j])
+                else:
+                    continue
+
+        return res
+```
+
 # BFS
 
 ## BFS模板：
