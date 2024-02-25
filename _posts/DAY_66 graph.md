@@ -192,6 +192,46 @@ def bfs(grid, visited, x, y):
         visited[nextx][nexty] = True # 标记为访问过的节点
 ```
 
+### 133 克隆图
+
+```
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+from typing import Optional
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        copyMap = {}
+
+        def dfs(node):
+            if node in copyMap:
+                return copyMap[node]
+            else:
+                copy_node = Node(node.val)
+                copyMap[node] = copy_node
+
+            for nei in node.neighbors:
+                copy_node.neighbors.append(dfs(nei)) 
+                # copy_node.neighbors本身是一个空清单。
+                # 把邻居加到copy_neighbors的清单里，本质上就是在“链接”。
+                # 何时链接呢？就是已有复制品的时候（就return那个复制品），然后就可以copy_node.neighbors.append(复制品)就是连接了
+            
+            return copy_node # 最后为什么要有这样一句话呢？虽然在遇到base case的时候会return复制品，
+            # 但是即使一个节点的副本最终会在 base case 中被返回，它的邻居节点可能不会立即达到这个条件。
+            # 因此，对于每个邻居，dfs 函数都会返回它的副本，无论它是直接从 base case 返回的，还是在创建了新副本后返回的。
+
+
+        if node == None:
+            return None
+        else:
+            return dfs(node)
+```
+
 ### BFS模板题
 
 ### 200 岛屿数量
