@@ -1,7 +1,7 @@
 队列先进先出，适合一层一层（离根从近到远）遍历，也就是BFS。
 
 # 队列迭代法（常见！优于回溯法）
-
+## 带层模板
 ```
 # 利用长度法
 # Definition for a binary tree node.
@@ -28,6 +28,24 @@ class Solution:
                     queue.append(cur.right)
             result.append(level)
         return result #结果会是类似这样：[[1], [2, 3], [4, 5]] 大列表套小列表，小列表装的就是那一层的节点
+```
+
+## 不带层模板
+
+```
+class Solution:
+    def bfs(k):
+        # 使用双端队列，而不是数组。因为数组从头部删除元素的时间复杂度为 N，双端队列的底层实现其实是链表。
+        queue = collections.deque([root])
+        # 队列不空，生命不止！
+        while queue:
+            node = queue.popleft()
+            if (node 是我们要找到的) return node
+            if node.right:
+                queue.append(node.right)
+            if node.left:
+                queue.append(node.left)
+        return -1
 ```
 
 上面这个模板，做以下10道题不是问题。
