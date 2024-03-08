@@ -50,12 +50,50 @@ WebSocket 的双工通信是指在单个连接上，客户端和服务器可以�
 
 ## 5.2 信息的sent/delivered/read
 
-session service其实还连接着另一个数据库（储存比如:A发给B“hi”，B发给A”hello“）。当用户A想给B发信息，把信息"hi"传到了session service，就会记录到这个数据库，如果记录成功了，就会对A说“我知道了，会发的，你回去吧”，这时候会显示sent。当这个数据库继续发给B，给到B了之后，session service就会知道，并且显示"delivered"，表示“已经送到啦，但是主人B还没有打开看”。当B打开这个app，当他看到消息，从B端就会给服务器发消息说“主人看到啦”，就会显示read。
+session service其实还连接着另一个数据库（储存比如:A发给B“hi”，B发给A”hello“）。
+
+当用户A想给B发信息，把信息"hi"传到了session service，就会记录到这个数据库，如果记录成功了，就会对A说“我知道了，会发的，你回去吧”，这时候会显示sent。
+
+当这个数据库继续发给B，给到B了之后，session service就会知道，并且显示"delivered"，表示“已经送到啦，但是主人B还没有打开看”。
+
+当B打开这个app，当他看到消息，从B端就会给服务器发消息说“主人看到啦”，就会显示read。
 
 ## 5.3 User Last Seen
 
 在之前session service的基础上，再加一个service叫：last seen。如果用户A有一个请求，传达到last seen这个service上就是表示“online”，20s不做其他动作，service就会显示“last seen 20s ago”。
 
 但是这里有一个trick，就是这个系统中，常常有2个活动，user activity或者app request（比如app想确认登陆成功，app想拿权限等等），我们要区别这两个（只有真正的user activity才能让last seen service显示“online”。所以在session service和last seen service之间还有一个boolean值flag，如果flag == True就是真正的user activity，这种情况下我们才认为A是online的状态。
+
+
+## 5.4 Group Messaging
+
+<img width="763" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/885578df-13c1-45b5-a06e-0512b2fd0554">
+
+就是在session service旁边再建一个service叫group chat，group chat又连接着一个数据库，这个数据库里面存着每个group分别有哪些user id。比如，当用户A想给group2发消息，就是A -> gateway -> session service -> group chat，然后group chat会去提取group2有哪些人，然后把消息分给他们。
+
+message queue用来保存order。
+为什么有多个message queue呢？因为群里可能会有大量消息发出，如果只有一个queue，就很慢的。
+那如果A想给B发2条信息，要怎么保证这两条信息的顺序不乱？-> 尽量把所有的from A to B都放进同一个队列！-> 那怎么才能把from A to B放进同一个队列呢？用request_id (from a to be) 做hash去选被分配到的queue，具体用consistent hashing！
+
+Consistent Hashing：其实是一个环，比如环上面分配着server1, server2, server3,server4。 当request来的时候，对request做hashing，如果分配到S2，那就顺时针找最近的S2。
+
+用环的好处：当一个server down了，我的request还可以去找下一个server。
+<img width="881" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/b0f0ee94-4a17-4c5d-8533-4885667a0348">
+
+
+这里有一个最坏情况：当S1,S2,S3都坏掉了，所有的request都被送到S4，这样S4会超载。有一个解决方式是，在圆环上放很多套S1234，降低全部堆在一个服务器的概率，这个叫virtual host。
+
+<img width="208" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/d71d40ee-d68f-415e-80b2-8411257ad6ce">
+
+
+
+
+### 特性名词解释
+
+Delivery-retry — 这意味着当消息从发送方传递到接收方时，如果第一次尝试失败了，系统会尝试重新发送消息。这是为了确保消息最终被成功送达。
+
+Idempotence — 幂等性是指执行某个操作一次或多次所产生的效果是相同的。在消息传递系统中，这意味着如果消息被重复接收（例如，在失败后重试传递消息的情况下），接收方处理这个重复消息的方式应确保不会产生重复的副作用。
+
+Ordering — 排序保证指的是消息被接收的顺序。在群组消息传递的上下文中，确保消息按照它们被发送的顺序到达每个成员是很重要的，这样可以确保所有人都有相同的上下文和信息流。
 
 
