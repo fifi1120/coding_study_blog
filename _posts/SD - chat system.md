@@ -34,7 +34,7 @@ gateway：是用来连接2个网络的（这2个网络的协议不同），左�
 
 session service：告诉你哪个用户在哪个gateway。比如这里：session service连着数据库，在数据库里能看到：用户A连着gateway1，用户B连着gateway2。----> 用户A想要发信息给用户B，A就通过HTTP协议通过gateway1发出请求，请求去session service一看，发现B在gateway2，于是把A的信息传到了gateway2，然后gateway2再想一种方法传到B（HTTP必须是从client发起，所以不能再用HTTP了。）。
 所以那用什么协议呢？有2种选择：
-a) HTTP-long pulling: 用户B每隔5秒去和service敲门：有没有我的信息？但这个在聊天系统不适用，因为我想要即时通信。
+a) HTTP-long polling: 用户B每隔5秒去和service敲门：有没有我的信息？但这个在聊天系统不适用，因为我想要即时通信。
 b) WSS - websocket on SSL/TSL for security：是一个类似于HTTP，但是更upgrade的东西，支持双工。HTTP是只能是client发起，所以是单向half的。但websocket不仅客户可以给server发，server也可以给client发，相当于开辟了client和server的双向通道，是full的。这些都是基于TCP的（TCP是guarantee delivered，UDP是not guarantee）。
 
 ### 补充资料：
@@ -67,9 +67,11 @@ session service其实还连接着另一个数据库（储存比如:A发给B“hi
 
 ## 5.4 Group Messaging
 
+### 5.4.1 ordering
+
 <img width="763" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/885578df-13c1-45b5-a06e-0512b2fd0554">
 
-就是在session service旁边再建一个service叫group chat，group chat又连接着一个数据库，这个数据库里面存着每个group分别有哪些user id。比如，当用户A想给group2发消息，就是A -> gateway -> session service -> group chat，然后group chat会去提取group2有哪些人，然后把消息分给他们。
+在session service旁边再建一个service叫group chat，group chat又连接着一个数据库，这个数据库里面存着每个group分别有哪些user id。比如，当用户A想给group2发消息，就是A -> gateway -> session service -> group chat，然后group chat会去提取group2有哪些人，然后把消息分给他们。
 
 message queue用来保存order。
 为什么有多个message queue呢？因为群里可能会有大量消息发出，如果只有一个queue，就很慢的。
@@ -81,19 +83,41 @@ Consistent Hashing：其实是一个环，比如环上面分配着server1, serve
 <img width="881" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/b0f0ee94-4a17-4c5d-8533-4885667a0348">
 
 
-这里有一个最坏情况：当S1,S2,S3都坏掉了，所有的request都被送到S4，这样S4会超载。有一个解决方式是，在圆环上放很多套S1234，降低全部堆在一个服务器的概率，这个叫virtual host。
+这里有一个最坏情况：当S1,S2,S3都坏掉了，所有的request都被送到S4，这样S4会超载。有一个解决方式是，在圆环上放很多套S1234，降低全部堆在一个服务器的概率，这个叫virtual host（更多服务器，也更distributed）。这种方式唯一的缺点就是，如果我要add server或者remove server，S1-4一套要动就得一起动。
 
 <img width="208" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/d71d40ee-d68f-415e-80b2-8411257ad6ce">
 
+如果你不想用queue，你还可以用thread。
 
+### 5.4.2 delivery-retry
 
+如果对方掉线了，你没发成功，就要考虑retry。
 
-### 特性名词解释
+那具体是怎么实现的呢？就是，如果这个消息并没有被标记“delivered”，那么就一直被保存在message queue里面，一直不停地尝试send。
 
-Delivery-retry — 这意味着当消息从发送方传递到接收方时，如果第一次尝试失败了，系统会尝试重新发送消息。这是为了确保消息最终被成功送达。
+### 5.4.3 idempotence
 
-Idempotence — 幂等性是指执行某个操作一次或多次所产生的效果是相同的。在消息传递系统中，这意味着如果消息被重复接收（例如，在失败后重试传递消息的情况下），接收方处理这个重复消息的方式应确保不会产生重复的副作用。
+多次做同一件事（比如call同一个API），结果应该保持不变。
 
-Ordering — 排序保证指的是消息被接收的顺序。在群组消息传递的上下文中，确保消息按照它们被发送的顺序到达每个成员是很重要的，这样可以确保所有人都有相同的上下文和信息流。
+<img width="923" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/94c01325-f8d0-4538-ac08-b35aac3013e4">
 
+比如你post的时候，如果只是简单地post同样的东西，那就是不符合idempotence的，因为你post第一次，出现1个结果，你再post一次，就一共有2个结果了。解决方式就是，给每一个post加上id，在数据库的每个element就被标注了postid，如果你有一个新的post，但是发现这个id在数据库已经存在了，数据库就知道你只是网不好，就并不会把你重复点击5次做成真正发了5个帖子。比如如果你在一亩三分地发帖，网络不好的时候你狂点，等网好了，你发现自己同样的评论发了好几次，这idempotence就做的很差。<如果你正在尝试提交一个表单，系统可能会生成一个唯一的ID来标识这次提交。如果因为网络问题导致你多次点击提交按钮，系统会检测到这些后续尝试都有相同的ID，并且知道这些都是重复的尝试，从而只处理一次。>
 
+同理，当A给B发消息，如果已经送到了，会显示messageID received already，因此如果网不稳定，系统还想尝试retry发送，在retry的时候就会发现已经处理过同样的messageID了，就不会再次发了（给service发信息“我已经有了，不要再发了！”），这就是符合idempotence的操作。
+
+### 5.4.3 corner case
+
+#### 5.4.3.1 
+
+过年信息很多，就可以只保留1-1 chat的功能，显示sent delivered read / user last seen这种不重要的功能就可以砍了。
+
+#### 5.4.3.2 
+
+有的app也不需要即时性，比如微博，如果你关注了很多人，只需要在登录时问一下：“有没有新的feed呀？” 这时候就不需要WSS双工了，可以用long polling。service会说“早就给你存好啦，你不在的时候，我都给你存数据库了！”
+
+#### 5.4.3.3
+
+从A发消息出来，可能需要serialize和deserialize，但gateway其实很贵的，所以尽量把这serialize和deserialize分出来。
+我的解决办法：让gateway傻傻的，用户发啥他传啥（不做额外处理），但是加一个新的service去做这个事情。
+
+消息的序列化（Serialization）和反序列化（Deserialization）。序列化是指将数据结构或对象状态转换为可以存储或传输的格式（例如，转换为JSON），而反序列化是这个过程的相反，即将接收到的数据转换回原始的数据格式。
