@@ -64,3 +64,18 @@ netflix想把100%的东西都放CDN。但是CDN很贵，所以你可以CDN只放
 
 <img width="920" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/77034539-f447-4066-83b0-af4d429a9bb6">
 
+CDN，content delivering network，用来加速浏览速度，像是个local cache。
+
+<img width="872" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/93c3d0cf-c410-494a-9549-1b55034edd74">
+
+<img width="872" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/779eae54-272b-45a4-9924-7ea95e0bd913">
+
+<img width="878" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/add1c375-5230-4a7e-922d-1b78aae72424">
+
+<img width="476" alt="image" src="https://github.com/fifi1120/coding_study_blog/assets/98888516/72ac0eaa-764f-42c3-a17a-d0212e9a5329">
+
+视频搜索还要了解：Elastic search （AWS有现成的library）
+
+
+
+
